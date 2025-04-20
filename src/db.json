@@ -1,11 +1,220 @@
 {
-    "users": [
-      { "id": 1, "name": "ギャルA", "age": 22 },
-      { "id": 2, "name": "ギャルB", "age": 24 }
-    ],
-    "posts": [
-      { "id": 1, "title": "ギャルの休日", "content": "海に行ったよ🏖" },
-      { "id": 2, "title": "今日のネイル💅", "content": "ピンクのフレンチにした✨" }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "q30387",
+      "password": "shingoPass",
+      "name": "Shingo Kajihara"
+    },
+    {
+      "id": "user_current",
+      "password": "currentPass",
+      "name": "CurrentUser"
+    },
+    {
+      "id": "user_A",
+      "password": "passwordA",
+      "name": "Test User A"
+    },
+    {
+      "id": "user_B",
+      "password": "passwordB",
+      "name": "Test User B"
+    },
+    {
+      "id": "user_C",
+      "password": "passwordC",
+      "name": "Test User C"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "q30387",
+      "name": "Shingo Kajihara",
+      "bio": "最近はVue.jsを学習中です。",
+      "icon": "/src/assets/icons/user/myicon.svg",
+      "header_photo": "/src/assets/images/header/h01.jpg",
+      "location": "東京都",
+      "birthday": "1985-05-23",
+      "registered": "2015-06-15",
+      "following": 10,
+      "follower": 15,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_current",
+      "name": "CurrentUser",
+      "bio": "コーディング中………",
+      "icon": "/src/assets/icons/user/myicon.svg",
+      "header_photo": "/src/assets/images/header/h02.jpg",
+      "location": "大阪府",
+      "birthday": "1990-09-12",
+      "registered": "2018-02-20",
+      "following": 20,
+      "follower": 25,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_A",
+      "name": "Test User A",
+      "bio": "user_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "icon": "/src/assets/icons/user/kkrn_icon_user_12.svg",
+      "header_photo": "/src/assets/images/header/h03.jpg",
+      "location": "愛知県",
+      "birthday": "1988-04-10",
+      "registered": "2016-05-17",
+      "following": 5,
+      "follower": 7,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_B",
+      "name": "Test User B",
+      "bio": "user_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "icon": "/src/assets/icons/user/kkrn_icon_user_14.svg",
+      "header_photo": "/src/assets/images/header/h04.jpg",
+      "location": "神奈川県",
+      "birthday": "1992-11-01",
+      "registered": "2017-07-25",
+      "following": 3,
+      "follower": 10,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_C",
+      "name": "Test User C",
+      "bio": "user_cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "icon": "/src/assets/icons/user/kkrn_icon_user_3.svg",
+      "header_photo": "/src/assets/images/header/h05.jpg",
+      "location": "千葉県",
+      "birthday": "1985-03-13",
+      "registered": "2011-09-19",
+      "following": 8,
+      "follower": 12,
+      "valid_flag": 1,
+      "delete_flag": 0
+    }
+  ],
+  "tweets": [
+    {
+      "id": 1,
+      "account_id": "user_A",
+      "text": "富山のホタルイカ、最高🍻",
+      "image": "/src/assets/images/img02.jpg",
+      "likes": 9,
+      "retweets": 23,
+      "replies": 7,
+      "views": 14,
+      "datetime": "2024-03-01T15:30:00",
+      "location": "富山県滑川市",
+      "delete_flag": 0
+    },
+    {
+      "id": 2,
+      "account_id": "user_B",
+      "text": "夜間はライトアップも実施「令和6年度 八女黒木大藤まつり」開催！",
+      "image": "/src/assets/images/img03.jpg",
+      "likes": 301,
+      "retweets": 2,
+      "replies": 0,
+      "views": 124,
+      "datetime": "2024-03-03T11:23:55",
+      "location": "福岡県八女市",
+      "delete_flag": 0
+    },
+    {
+      "id": 3,
+      "account_id": "user_C",
+      "text": "プレゼントキャンペーン🎁",
+      "image": "/src/assets/images/img04.jpg",
+      "likes": 30133,
+      "retweets": 2322,
+      "replies": 792,
+      "views": 140230,
+      "datetime": "2024-03-10T00:21:51",
+      "location": "東京都江東区",
+      "delete_flag": 0
+    },
+    {
+      "id": 4,
+      "account_id": "user_D",
+      "text": "ガチャ爆死したなう",
+      "image": "/src/assets/images/img01.GIF",
+      "likes": 13,
+      "retweets": 3,
+      "replies": 2,
+      "views": 140,
+      "datetime": "2024-03-18T20:10:01",
+      "location": "東京都江東区",
+      "delete_flag": 0
+    },
+    {
+      "id": 5,
+      "account_id": "user_E",
+      "text": "コカ・コーラ 500ml×24本がクーポンと定期お得便で1691円に #広告",
+      "image": "/src/assets/images/img01.GIF",
+      "likes": 23301,
+      "retweets": 232,
+      "replies": 7333,
+      "views": 149934,
+      "datetime": "2024-03-29T15:30:11",
+      "location": null,
+      "delete_flag": 0
+    }
+  ],
+  "scheduledTweets": [
+    {
+      "id": 1,
+      "account_id": "q30387",
+      "text": "ツイート内容1",
+      "image": "/src/assets/images/img01.GIF",
+      "location": "東京都",
+      "scheduled_datetime": "2025-04-19T00:00:10",
+      "created_datetime": "2025-04-19T00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": 2,
+      "account_id": "user_A",
+      "text": "ツイート内容2",
+      "image": "/src/assets/images/img02.jpg",
+      "location": "大阪府",
+      "scheduled_datetime": "2025-04-19T00:00:20",
+      "created_datetime": "2025-04-19T00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": 3,
+      "account_id": "user_B",
+      "text": "ツイート内容3",
+      "image": "/src/assets/images/img03.jpg",
+      "location": "北海道",
+      "scheduled_datetime": "2025-04-19T00:00:30",
+      "created_datetime": "2025-04-19T00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": 4,
+      "account_id": "user_C",
+      "text": "ツイート内容4",
+      "image": "/src/assets/images/img04.jpg",
+      "location": "福岡県",
+      "scheduled_datetime": "2025-04-19T00:00:40",
+      "created_datetime": "2025-04-19T00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": 5,
+      "account_id": "q30387",
+      "text": "ツイート内容5",
+      "image": "/src/assets/images/img05.jpg",
+      "location": "愛知県",
+      "scheduled_datetime": "2025-04-19T00:00:50",
+      "created_datetime": "2025-04-19T00:00:00",
+      "delete_flag": 0
+    }
+  ]
+}

@@ -1,8 +1,69 @@
-export default function Home() {
-    return (
-      <div>
-        ログインページ
-      </div>
-    );
+// src/app/auth/page.tsx
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/stores/useUserStore'
+
+export default function AuthPage() {
+  const [id, setId] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const setUser = useUserStore((s) => s.setUser)
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    try {
+      const res = await fetch('http://localhost:5000/users')
+      if (!res.ok) throw new Error('Network error')
+      const users: { id: string; password: string; name: string }[] = await res.json()
+      const matched = users.find(u => u.id === id && u.password === password)
+      if (!matched) {
+        setError('IDかパスワードが正しくないよ〜')
+        return
+      }
+      setUser({ id: matched.id, name: matched.name })
+      router.push('/home')
+    } catch (err) {
+      console.error(err)
+      setError('ログインに失敗したかも…もう一回試して！')
+    }
   }
-  
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm p-6 border rounded space-y-4">
+        <h2 className="text-2xl font-bold">ログイン</h2>
+        <div>
+          <label className="block mb-1">ユーザーID</label>
+          <input
+            type="text"
+            value={id}
+            onChange={e => setId(e.target.value)}
+            required
+            className="w-full px-2 py-1 border rounded"
+          />
+        </div>
+        <div>
+          <label className="block mb-1">パスワード</label>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            className="w-full px-2 py-1 border rounded"
+          />
+        </div>
+        {error && <p className="text-red-600">{error}</p>}
+        <button
+          type="submit"
+          className="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          ログイン
+        </button>
+      </form>
+    </div>
+  )
+}
