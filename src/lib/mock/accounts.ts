@@ -13,7 +13,7 @@ export interface Account {
     delete_flag: number;
   }
   
-  export const mockUsers: Account[] = [
+  export const mockAccounts: Account[] = [
     {
       id: 'q30387',
       name: 'Shingo Kajihara',

@@ -36,8 +36,8 @@
       "id": "q30387",
       "name": "Shingo Kajihara",
       "bio": "最近はVue.jsを学習中です。",
-      "icon": "/src/assets/icons/user/myicon.svg",
-      "header_photo": "/src/assets/images/header/h01.jpg",
+      "icon": "/src/public/icons/account/my_icon.svg",
+      "header_photo": "/src/public/images/header/h01.jpg",
       "location": "東京都",
       "birthday": "1985-05-23",
       "registered": "2015-06-15",
@@ -47,11 +47,11 @@
       "delete_flag": 0
     },
     {
-      "id": "user_current",
-      "name": "CurrentUser",
+      "id": "test",
+      "name": "test user",
       "bio": "コーディング中………",
-      "icon": "/src/assets/icons/user/myicon.svg",
-      "header_photo": "/src/assets/images/header/h02.jpg",
+      "icon": "/src/public/icons/account/default_icon.svg",
+      "header_photo": "/src/public/images/header/h02.jpg",
       "location": "大阪府",
       "birthday": "1990-09-12",
       "registered": "2018-02-20",
@@ -63,9 +63,9 @@
     {
       "id": "user_A",
       "name": "Test User A",
-      "bio": "user_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "icon": "/src/assets/icons/user/kkrn_icon_user_12.svg",
-      "header_photo": "/src/assets/images/header/h03.jpg",
+      "bio": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "icon": "",
+      "header_photo": "/src/public/images/header/h03.jpg",
       "location": "愛知県",
       "birthday": "1988-04-10",
       "registered": "2016-05-17",
@@ -77,9 +77,9 @@
     {
       "id": "user_B",
       "name": "Test User B",
-      "bio": "user_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "icon": "/src/assets/icons/user/kkrn_icon_user_14.svg",
-      "header_photo": "/src/assets/images/header/h04.jpg",
+      "bio": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "icon": "/src/public/icons/account/kkrn_icon_user_14.svg",
+      "header_photo": "/src/public/images/header/h04.jpg",
       "location": "神奈川県",
       "birthday": "1992-11-01",
       "registered": "2017-07-25",
@@ -91,9 +91,9 @@
     {
       "id": "user_C",
       "name": "Test User C",
-      "bio": "user_cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "icon": "/src/assets/icons/user/kkrn_icon_user_3.svg",
-      "header_photo": "/src/assets/images/header/h05.jpg",
+      "bio": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "icon": "/src/public/icons/account/kkrn_icon_user_15.svg",
+      "header_photo": "/src/public/images/header/h05.jpg",
       "location": "千葉県",
       "birthday": "1985-03-13",
       "registered": "2011-09-19",
@@ -108,7 +108,7 @@
       "id": 1,
       "account_id": "user_A",
       "text": "富山のホタルイカ、最高🍻",
-      "image": "/src/assets/images/img02.jpg",
+      "image": "/src/public/images/tweet/img02.jpg",
       "likes": 9,
       "retweets": 23,
       "replies": 7,
@@ -121,7 +121,7 @@
       "id": 2,
       "account_id": "user_B",
       "text": "夜間はライトアップも実施「令和6年度 八女黒木大藤まつり」開催！",
-      "image": "/src/assets/images/img03.jpg",
+      "image": "/src/public/images/tweet/img03.jpg",
       "likes": 301,
       "retweets": 2,
       "replies": 0,
@@ -134,7 +134,7 @@
       "id": 3,
       "account_id": "user_C",
       "text": "プレゼントキャンペーン🎁",
-      "image": "/src/assets/images/img04.jpg",
+      "image": "/src/public/images/tweet/img04.jpg",
       "likes": 30133,
       "retweets": 2322,
       "replies": 792,
@@ -147,7 +147,7 @@
       "id": 4,
       "account_id": "user_D",
       "text": "ガチャ爆死したなう",
-      "image": "/src/assets/images/img01.GIF",
+      "image": "/src/public/images/tweet/img01.GIF",
       "likes": 13,
       "retweets": 3,
       "replies": 2,
@@ -160,7 +160,7 @@
       "id": 5,
       "account_id": "user_E",
       "text": "コカ・コーラ 500ml×24本がクーポンと定期お得便で1691円に #広告",
-      "image": "/src/assets/images/img01.GIF",
+      "image": "/src/public/images/tweet/img01.GIF",
       "likes": 23301,
       "retweets": 232,
       "replies": 7333,
@@ -175,7 +175,7 @@
       "id": 1,
       "account_id": "q30387",
       "text": "ツイート内容1",
-      "image": "/src/assets/images/img01.GIF",
+      "image": "/src/public/images/tweet/img01.jpg",
       "location": "東京都",
       "scheduled_datetime": "2025-04-19T00:00:10",
       "created_datetime": "2025-04-19T00:00:00",
@@ -185,7 +185,7 @@
       "id": 2,
       "account_id": "user_A",
       "text": "ツイート内容2",
-      "image": "/src/assets/images/img02.jpg",
+      "image": "/src/public/images/tweet/img02.jpg",
       "location": "大阪府",
       "scheduled_datetime": "2025-04-19T00:00:20",
       "created_datetime": "2025-04-19T00:00:00",
@@ -195,7 +195,7 @@
       "id": 3,
       "account_id": "user_B",
       "text": "ツイート内容3",
-      "image": "/src/assets/images/img03.jpg",
+      "image": "/src/public/images/tweet/img03.jpg",
       "location": "北海道",
       "scheduled_datetime": "2025-04-19T00:00:30",
       "created_datetime": "2025-04-19T00:00:00",
@@ -205,7 +205,7 @@
       "id": 4,
       "account_id": "user_C",
       "text": "ツイート内容4",
-      "image": "/src/assets/images/img04.jpg",
+      "image": "/src/public/images/tweet/img04.jpg",
       "location": "福岡県",
       "scheduled_datetime": "2025-04-19T00:00:40",
       "created_datetime": "2025-04-19T00:00:00",
@@ -215,11 +215,78 @@
       "id": 5,
       "account_id": "q30387",
       "text": "ツイート内容5",
-      "image": "/src/assets/images/img05.jpg",
+      "image": "/src/public/images/tweet/img05.jpg",
       "location": "愛知県",
       "scheduled_datetime": "2025-04-19T00:00:50",
       "created_datetime": "2025-04-19T00:00:00",
       "delete_flag": 0
+    }
+  ],
+  "trends": [
+    { 
+      "category": "スポーツ",
+      "topic": "開幕戦",
+      "count": 6254
+    },
+    { 
+      "category": "ゲーム", 
+      "topic": "RTA in Japan",
+      "count": 6934
+    },
+    { 
+      "category": "音楽", 
+      "topic": "J‑POP", 
+      "count": 7145
+    },
+    { 
+      "category": "日本", 
+      "topic": "今日は金曜日", 
+      "count": 4289
+    },
+    { 
+      "category": "スマホ", 
+      "topic": "バッテリー交換", 
+      "count": 1109
+    },
+    { 
+      "category": "孤独のグルメ", 
+      "topic": "腹が減った", 
+      "count": 20199
+    },
+    { 
+      "category": "NISA", 
+      "topic": "S&P500", 
+      "count": 13655
+    },
+    { 
+      "category": "switch2", 
+      "topic": "転売ヤー激怒", 
+      "count": 3323
+    },
+    { 
+      "category": "IT業界", 
+      "topic": "IPv6", 
+      "count": 998
+    },
+    { 
+      "category": "花粉症", 
+      "topic": "今日は注意報", 
+      "count": 20913
+    },
+    { 
+      "category": "エアコン", 
+      "topic": "起動確認", 
+      "count": 8722
+    },
+    { 
+      "category": "かき氷", 
+      "topic": "ひみつ堂", 
+      "count": 649
+    },
+    { 
+      "category": "福岡", 
+      "topic": "新幹線", 
+      "count": 7237
     }
   ]
 }
