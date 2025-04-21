@@ -1,6 +1,11 @@
 {
   "users": [
     {
+      "id": "a",
+      "password": "a",
+      "name": "testUser"
+    },
+    {
       "id": "q30387",
       "password": "shingoPass",
       "name": "Shingo Kajihara"
