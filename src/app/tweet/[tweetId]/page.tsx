@@ -1,7 +1,8 @@
-export default function Home() {
-  return (
-    <div>
-      ツイート詳細
-    </div>
-  );
+// app/tweet/[tweetId]/page.tsx
+'use client'
+
+import TweetDetail from '@/components/CenterArea/Tweet/TweetDetail'
+
+export default function TweetDetailPage() {
+  return <TweetDetail />
 }
