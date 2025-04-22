@@ -9,6 +9,7 @@ export default function AuthPage() {
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isComposing, setIsComposing] = useState(false)
   const setUser = useUserStore((s) => s.setUser)
   const router = useRouter()
 
@@ -22,14 +23,48 @@ export default function AuthPage() {
       const matched = users.find(u => u.id === id && u.password === password)
       if (!matched) {
         setError('IDかパスワードが正しくないよ〜')
+        setId('')
+        setPassword('')
         return
       }
       setUser({ id: matched.id, name: matched.name })
       router.push('/home')
     } catch (err) {
       console.error(err)
-      setError('ログインに失敗したかも…もう一回試して！')
+      setError('ログイン処理に失敗しました！')
     }
+  }
+
+  // 確定後に半角英数字に変換する処理
+  const normalizeToAlnum = (value: string) => {
+    const normalized = value.normalize('NFKC')
+    return normalized.replace(/[^0-9A-Za-z]/g, '')
+  }
+
+  const handleComposition = (e: React.CompositionEvent<HTMLInputElement>) => {
+    if (e.type === 'compositionstart') {
+      setIsComposing(true)
+    } else if (e.type === 'compositionend') {
+      setIsComposing(false)
+      // 確定された文字列を変換
+      setId(normalizeToAlnum(e.currentTarget.value))
+    }
+  }
+
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    if (isComposing) {
+      // IME入力中はそのまま反映
+      setId(val)
+    } else {
+      // IME外 or 直接入力なら変換
+      setId(normalizeToAlnum(val))
+    }
+  }
+
+  const handleBlur = () => {
+    // フォーカス外れた時にも確実に変換
+    setId(normalizeToAlnum(id))
   }
 
   return (
@@ -41,9 +76,13 @@ export default function AuthPage() {
           <input
             type="text"
             value={id}
-            onChange={e => setId(e.target.value)}
+            onChange={handleIdChange}
+            onCompositionStart={handleComposition}
+            onCompositionEnd={handleComposition}
+            onBlur={handleBlur}
             required
             className="w-full px-2 py-1 border rounded"
+            placeholder="半角英数字のみ"
           />
         </div>
         <div>
