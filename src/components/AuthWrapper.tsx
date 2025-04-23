@@ -12,21 +12,28 @@ import { useUserStore } from '@/stores/useUserStore'
 type Props = { children: ReactNode }
 
 export default function AuthWrapper({ children }: Props) {
-  const user = useUserStore(s => s.user)
-  const router = useRouter()
-  const path = usePathname()
+  const user         = useUserStore((s) => s.user)
+  const hasHydrated  = useUserStore((s) => s.hasHydrated)
+  const router       = useRouter()
+  const path         = usePathname()
 
   useEffect(() => {
+
+    // ログイン状態の復元が終わるまでログイン状態を判定しない
+    if (!hasHydrated) return
+
     if (path !== '/auth' && !user) {
       router.replace('/auth')
     }
-  }, [user, router, path])
+  }, [hasHydrated, path, user, router])
 
-  // /auth ルートは例外でレンダー
-  if (path === '/auth') {
-    return <>{children}</>
-  }
+  // ログイン状態の復元中は何も描画しない
+  if (!hasHydrated) return null
 
+  // /auth は例外でレンダー
+  if (path === '/auth') return <>{children}</>
+
+  // ログイン状態の復元後にユーザー情報がなければガード
   if (!user) return null
 
   return (
@@ -35,9 +42,7 @@ export default function AuthWrapper({ children }: Props) {
         <LeftArea />
       </div>
       <div className="flex-1 overflow-auto">
-        <CenterArea>
-          {children}
-        </CenterArea>
+        <CenterArea>{children}</CenterArea>
       </div>
       <div className="w-1/4 border-l overflow-auto">
         <RightArea />
