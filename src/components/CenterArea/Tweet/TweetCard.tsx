@@ -29,6 +29,7 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
           width={500}
           height={300}
           className="rounded"
+          priority={true}
         />
       )}
 
