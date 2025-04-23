@@ -1,6 +1,7 @@
 'use client'
 
 import { useTweets } from '@/hooks/useTweets'
+import TweetForm from '@/components/CenterArea/Home/TweetForm'
 import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
 
 export default function Timeline() {
@@ -10,12 +11,19 @@ export default function Timeline() {
   if (error)   return <p className="text-red-600">エラー: {error}</p>
 
   return (
-    <ul className="space-y-4">
-      {tweets.map(tweet => (
-        <li key={tweet.id}>
-          <TweetCard tweet={tweet} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <TweetForm />
+      {loading && <p>ツイート読み込み中…</p>}
+      {error   && <p className="text-red-600">エラー: {error}</p>}
+      {!loading && !error && (
+        <ul className="space-y-4">
+          {tweets.map((tweet) => (
+            <li key={tweet.id}>
+              <TweetCard tweet={tweet} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   )
 }
