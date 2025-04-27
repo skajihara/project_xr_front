@@ -1,3 +1,4 @@
+// src/components/CenterArea/Home/Timeline.tsx
 'use client'
 
 import { useTweets } from '@/hooks/useTweets'
@@ -13,17 +14,13 @@ export default function Timeline() {
   return (
     <>
       <TweetForm />
-      {loading && <p>ツイート読み込み中…</p>}
-      {error   && <p className="text-red-600">エラー: {error}</p>}
-      {!loading && !error && (
-        <ul className="space-y-4">
-          {tweets.map((tweet) => (
-            <li key={tweet.id}>
-              <TweetCard tweet={tweet} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className="space-y-4">
+        {tweets.map((tweet) => (
+          <li key={tweet.id}>
+            <TweetCard tweet={tweet} />
+          </li>
+        ))}
+      </ul>
     </>
   )
 }

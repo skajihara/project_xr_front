@@ -2,8 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
 import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
 import { Tweet } from '@/hooks/useTweets'
 
@@ -12,6 +11,7 @@ export default function TweetDetail() {
   const [tweet, setTweet] = useState<Tweet | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     if (!tweetId) return
@@ -42,9 +42,9 @@ export default function TweetDetail() {
 
   return (
     <div className="space-y-4">
-      <Link href="/home" className="text-blue-500 hover:underline">
+      <button onClick={() => router.push('/home')} className="text-blue-500 hover:underline">
         ← 戻る
-      </Link>
+      </button>
       <TweetCard tweet={tweet} />
     </div>
   )
