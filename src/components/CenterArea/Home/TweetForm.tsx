@@ -25,7 +25,7 @@ export default function TweetForm() {
         retweets: 0,
         replies: 0,
         views: 0,
-        datetime: new Date().toISOString(),
+        datetime: new Date().toLocaleString('sv', { timeZone: 'Asia/Tokyo' }),
         location: null,
         delete_flag: 0,
       }
