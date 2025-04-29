@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUserStore } from '@/stores/useUserStore'
+import { useRouter } from 'next/navigation'
 
 type AccountDetail = {
   id: string
@@ -12,9 +13,16 @@ type AccountDetail = {
 
 export default function MyProfile() {
   const current = useUserStore(s => s.user)
+  const clearUser = useUserStore(s => s.clearUser)
+  const router = useRouter()
   const [account, setAccount] = useState<AccountDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const handleLogout = () => {
+    clearUser()             // ストアからユーザー削除
+    router.push('/auth')    // ログイン画面へリダイレクト
+  }
 
   useEffect(() => {
     if (!current) return
@@ -47,6 +55,12 @@ export default function MyProfile() {
         <p className="font-semibold">{account.name}</p>
         <p className="text-sm text-gray-500">@{account.id}</p>
       </div>
+      <button
+        onClick={handleLogout}
+        className="px-3 py-1 text-sm text-red-500 hover:underline"
+      >
+        ログアウト
+      </button>
     </div>
   )
 }

@@ -19,7 +19,7 @@ export default function AuthWrapper({ children }: Props) {
 
   useEffect(() => {
 
-    // ログイン状態の復元が終わるまでログイン状態を判定しない
+    // ストレージの復元が終わるまでログイン状態を判定しない
     if (!hasHydrated) return
 
     if (path !== '/auth' && !user) {
@@ -27,14 +27,15 @@ export default function AuthWrapper({ children }: Props) {
     }
   }, [hasHydrated, path, user, router])
 
-  // ログイン状態の復元中は何も描画しない
-  if (!hasHydrated) return null
+  // 復元中または未ログイン時は何も描画しない
+  if (!hasHydrated || (!user && path !== '/auth')) {
+    return null
+  }
 
-  // /auth は例外でレンダー
-  if (path === '/auth') return <>{children}</>
-
-  // ログイン状態の復元後にユーザー情報がなければガード
-  if (!user) return null
+  // 認証済 or /auth なら画面を描画
+  if (path === '/auth') {
+    return <>{children}</>
+  }
 
   return (
     <div className="flex h-screen">
