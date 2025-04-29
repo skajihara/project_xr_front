@@ -56,7 +56,11 @@ export default function ProfileHeader() {
       {/* アイコンとフォローボタン */}
       <div className="flex justify-between items-end -mt-8 px-4">
         <Image
-          src={acct.icon}
+          src={
+            acct.icon && acct.icon.trim() !== ''
+              ? acct.icon
+              : '/icons/account/default_icon.svg'
+          }
           alt="icon"
           width={96}
           height={96}
