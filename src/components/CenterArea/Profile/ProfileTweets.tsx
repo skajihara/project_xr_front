@@ -1,4 +1,4 @@
-// src/components/CenterContents/Profile/ProfileTweets.tsx
+// src/components/CenterArea/Profile/ProfileTweets.tsx
 'use client'
 
 import { useState, useEffect } from 'react'

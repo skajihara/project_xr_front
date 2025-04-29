@@ -1,3 +1,4 @@
+// src/components/LeftArea/SideMenu.tsx
 'use client'
 
 import { useRouter } from 'next/navigation'

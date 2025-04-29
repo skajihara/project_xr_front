@@ -1,3 +1,4 @@
+// src/components/RightArea/TrendTopics.tsx
 'use client'
 
 import { useEffect, useState } from 'react'

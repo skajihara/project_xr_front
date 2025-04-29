@@ -1,4 +1,4 @@
-// src/components/CenterContents/Profile/ProfileHeader.tsx
+// src/components/CenterArea/Profile/ProfileHeader.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
