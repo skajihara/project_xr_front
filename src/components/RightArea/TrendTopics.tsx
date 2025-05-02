@@ -2,12 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-type Trend = {
-  category: string
-  topic: string
-  count: number
-}
+import { Trend } from '@/types/trend'
 
 export default function TrendTopics() {
   const [trends, setTrends] = useState<Trend[]>([])

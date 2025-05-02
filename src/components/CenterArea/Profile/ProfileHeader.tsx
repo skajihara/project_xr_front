@@ -5,19 +5,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-
-type Account = {
-  id: string
-  name: string
-  bio: string
-  icon: string
-  header_photo: string
-  location: string
-  birthday: string
-  registered: string
-  following: number
-  follower: number
-}
+import { Account } from '@/types/account'
 
 export default function ProfileHeader() {
   const { accountId } = useParams() as { accountId: string }

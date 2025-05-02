@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import ScheduledTweetCard from '@/components/CenterArea/Schedule/ScheduledTweetCard'
-import { ScheduledTweet } from '@/hooks/useScheduledTweets'
+import { ScheduledTweet } from '@/types/scheduledTweet'
 
 export default function ScheduledTweetDetail() {
   const { scheduleId } = useParams() as { scheduleId: string }

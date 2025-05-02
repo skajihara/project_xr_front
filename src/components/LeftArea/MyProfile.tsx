@@ -5,18 +5,13 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'next/navigation'
-
-type AccountDetail = {
-  id: string
-  name: string
-  icon: string
-}
+import { Account } from '@/types/account'
 
 export default function MyProfile() {
   const current = useUserStore(s => s.user)
   const clearUser = useUserStore(s => s.clearUser)
   const router = useRouter()
-  const [account, setAccount] = useState<AccountDetail | null>(null)
+  const [account, setAccount] = useState<Account | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -32,7 +27,7 @@ export default function MyProfile() {
         if (!res.ok) throw new Error('アカウント情報取得失敗')
         return res.json()
       })
-      .then((data: AccountDetail) => setAccount(data))
+      .then((data: Account) => setAccount(data))
       .catch(err => {
         console.error(err)
         setError(err.message)

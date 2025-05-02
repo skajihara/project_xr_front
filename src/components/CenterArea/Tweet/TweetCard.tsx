@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Tweet } from '@/hooks/useTweets'
+import { Tweet } from '@/types/tweet'
 
 export default function TweetCard({ tweet }: { tweet: Tweet }) {
   const router = useRouter()

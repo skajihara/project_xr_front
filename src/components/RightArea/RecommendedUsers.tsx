@@ -4,12 +4,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUserStore } from '@/stores/useUserStore'
-
-type Account = {
-  id: string
-  name: string
-  icon?: string
-}
+import { Account } from '@/types/account'
 
 export default function RecommendedUsers() {
   const currentUser = useUserStore(s => s.user)

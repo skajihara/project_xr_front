@@ -1,16 +1,6 @@
 // src/hooks/useScheduledTweets.ts
 import { useState, useEffect } from 'react'
-
-export type ScheduledTweet = {
-  id: number
-  account_id: string
-  text: string
-  image?: string
-  location?: string
-  scheduled_datetime: string
-  created_datetime: string
-  delete_flag: number
-}
+import { ScheduledTweet } from '@/types/scheduledTweet'
 
 export function useScheduledTweets(accountId: string) {
   const [scheduledTweets, setScheduledTweets] = useState<ScheduledTweet[]>([])

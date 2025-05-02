@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
-import { Tweet } from '@/hooks/useTweets'
+import { Tweet } from '@/types/tweet'
 
 export default function ProfileTweets() {
   const { accountId } = useParams() as { accountId: string }

@@ -4,7 +4,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { ScheduledTweet } from '@/hooks/useScheduledTweets'
+import { ScheduledTweet } from '@/types/scheduledTweet'
 
 export default function ScheduledTweetCard({ scheduled }: { scheduled: ScheduledTweet }) {
   const [icon, setIcon] = useState<string | null>(null)
