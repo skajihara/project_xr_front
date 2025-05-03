@@ -2,165 +2,170 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, notFound } from 'next/navigation'
 import ScheduledTweetCard from '@/components/CenterArea/Schedule/ScheduledTweetCard'
-import { ScheduledTweet } from '@/types/scheduledTweet'
+import { useScheduledTweet } from '@/hooks/useScheduledTweet'
 
 export default function ScheduledTweetDetail() {
   const { scheduleId } = useParams() as { scheduleId: string }
   const router = useRouter()
+  const { scheduled, loading, error } = useScheduledTweet(scheduleId)
 
-  const [scheduled, setScheduled] = useState<ScheduledTweet|null>(null)
-  const [loading, setLoading]   = useState(true)
-  const [error, setError]       = useState<string|null>(null)
+  // 編集フォーム用 state
   const [isEditing, setIsEditing] = useState(false)
-
-  // 編集用フォームの state
   const [text, setText] = useState('')
   const [image, setImage] = useState('')
   const [scheduledDatetime, setScheduledDatetime] = useState('')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
 
+  // データ読み込み完了したらフォームに初期値セット
   useEffect(() => {
-    if (!scheduleId) return
-    setLoading(true)
-    fetch(`http://localhost:5000/scheduledTweets?id=${scheduleId}`)
-      .then(res => res.json())
-      .then((data: ScheduledTweet[]) => {
-        if (data.length) {
-          const item = data[0]
-          setScheduled(item)
-          setText(item.text)
-          setImage(item.image ?? '')
-          setScheduledDatetime(item.scheduled_datetime)
-        } else {
-          setError('予約ツイートが見つかりません')
-        }
-      })
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false))
-  }, [scheduleId])
+    if (scheduled) {
+      setText(scheduled.text)
+      setImage(scheduled.image ?? '')
+      setScheduledDatetime(scheduled.scheduled_datetime)
+    }
+  }, [scheduled])
 
-  const handleDelete = async () => {
-    if (!scheduled) return
-    if (!confirm('本当に削除する？')) return
-    await fetch(`http://localhost:5000/scheduledTweets/${scheduled.id}`, {
-      method: 'DELETE',
-    })
-    router.push('/scheduled_tweet')
-  }
+  if (loading) return <p>詳細読み込み中…</p>
+  if (error)   return <p className="text-red-600">エラー: {error}</p>
+  if (!scheduled) notFound()
 
-  const handleUpdate = async (e: React.FormEvent) => {
+  // 更新処理
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!scheduled) return
-    setLoading(true)
+    setErrorMsg(null)
+    if (!text.trim() || !scheduledDatetime) {
+      setErrorMsg('テキストと日時は必須です！')
+      return
+    }
+    setSaving(true)
     try {
-      const body = {
-        text,
-        image: image || null,
-        scheduled_datetime: scheduledDatetime,
-      }
-      await fetch(`http://localhost:5000/scheduledTweets/${scheduled.id}`, {
-        method: 'PATCH',
+      // 秒を付与して東京タイム表記に
+      const dt = new Date(scheduledDatetime)
+      const formatted = dt
+        .toLocaleString('sv', { timeZone: 'Asia/Tokyo' })
+        .replace(' ', 'T')
+      await fetch(`http://localhost:5000/scheduledTweets/${scheduleId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          ...scheduled,
+          text: text.trim(),
+          image: image.trim() || null,
+          scheduled_datetime: formatted,
+        }),
+      }).then(res => {
+        if (!res.ok) throw new Error('更新に失敗しました。')
       })
-      // 更新後は state も更新
-      setScheduled(prev => prev ? { ...prev, ...body } as ScheduledTweet : prev)
+      // 編集モード解除＆再描画
       setIsEditing(false)
-    } catch (err) {
+      window.location.reload()
+    } catch (err: unknown) {
       console.error(err)
-      alert('更新に失敗しました')
+      setErrorMsg(err instanceof Error ? err.message : '更新エラー')
     } finally {
-      setLoading(false)
+      setSaving(false)
     }
   }
 
-  if (loading) return <p>詳細読み込み中…</p>
-  if (error || !scheduled) return <p className="text-red-600">{error || 'エラー発生'}</p>
+  // 削除処理
+  const handleDelete = async () => {
+    if (!confirm('この予約ツイートを削除してもいいですか？')) return
+    try {
+      const res = await fetch(
+        `http://localhost:5000/scheduledTweets/${scheduleId}`,
+        { method: 'DELETE' }
+      )
+      if (!res.ok) throw new Error('削除に失敗しました。')
+      router.push('/scheduled_tweet')
+    } catch (err: unknown) {
+      console.error(err)
+      alert(err instanceof Error ? err.message : '削除エラー')
+    }
+  }
 
   return (
     <div className="space-y-4">
-      <button onClick={() => router.push('/scheduled_tweet')} className="text-blue-500 hover:underline">
+      <button
+        onClick={() => router.push('/scheduled_tweet')}
+        className="text-blue-500 hover:underline"
+      >
         ← 戻る
       </button>
 
       {!isEditing ? (
         <>
-          {/* 通常表示 */}
           <ScheduledTweetCard scheduled={scheduled} />
-
           <div className="flex space-x-2">
             <button
               onClick={() => setIsEditing(true)}
-              className="px-3 py-1 bg-yellow-400 rounded"
+              className="px-4 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
             >
               編集
             </button>
             <button
               onClick={handleDelete}
-              className="px-3 py-1 bg-red-500 text-white rounded"
+              className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
             >
               削除
             </button>
           </div>
         </>
       ) : (
-        <>
-          {/* 編集フォーム */}
-          <form onSubmit={handleUpdate} className="space-y-4">
-            <div>
-              <label className="block mb-1">テキスト</label>
-              <textarea
-                value={text}
-                onChange={e => setText(e.target.value)}
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">画像URL</label>
-              <input
-                type="text"
-                value={image}
-                onChange={e => setImage(e.target.value)}
-                className="w-full p-2 border rounded"
-                placeholder="空文字で画像を削除"
-              />
-            </div>
-            <div>
-              <label className="block mb-1">予約日時</label>
-              <input
-                type="datetime-local"
-                value={scheduledDatetime}
-                onChange={e => setScheduledDatetime(e.target.value)}
-                className="w-full p-2 border rounded"
-                required
-              />
-            </div>
-            <div className="flex space-x-2">
-              <button
-                type="submit"
-                className="px-3 py-1 bg-green-500 text-white rounded"
-                disabled={loading}
-              >
-                {loading ? '更新中…' : '更新する'}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  // 編集キャンセル時はフォーム state を元に戻す
-                  setText(scheduled.text)
-                  setImage(scheduled.image ?? '')
-                  setScheduledDatetime(scheduled.scheduled_datetime)
-                  setIsEditing(false)
-                }}
-                className="px-3 py-1 bg-gray-300 rounded"
-              >
-                キャンセル
-              </button>
-            </div>
-          </form>
-        </>
+        <form onSubmit={handleSave} className="space-y-4 border rounded p-4 bg-white">
+          {errorMsg && <p className="text-red-600">{errorMsg}</p>}
+
+          <div>
+            <label className="block mb-1">テキスト</label>
+            <textarea
+              value={text}
+              onChange={e => setText(e.target.value)}
+              className="w-full p-2 border rounded resize-none"
+              rows={3}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1">画像URL (任意)</label>
+            <input
+              type="text"
+              value={image}
+              onChange={e => setImage(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1">予約日時</label>
+            <input
+              type="datetime-local"
+              value={scheduledDatetime}
+              onChange={e => setScheduledDatetime(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+
+          <div className="flex space-x-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            >
+              {saving ? '更新中…' : '保存'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              キャンセル
+            </button>
+          </div>
+        </form>
       )}
     </div>
   )
