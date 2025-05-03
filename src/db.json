@@ -1,0 +1,463 @@
+{
+  "users": [
+    {
+      "id": "q",
+      "password": "q",
+      "name": "testUser"
+    },
+    {
+      "id": "q30387",
+      "password": "shingoPass",
+      "name": "Shingo Kajihara"
+    },
+    {
+      "id": "user_current",
+      "password": "currentPass",
+      "name": "CurrentUser"
+    },
+    {
+      "id": "user_A",
+      "password": "passwordA",
+      "name": "Test User A"
+    },
+    {
+      "id": "user_B",
+      "password": "passwordB",
+      "name": "Test User B"
+    },
+    {
+      "id": "user_C",
+      "password": "passwordC",
+      "name": "Test User C"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "q30387",
+      "name": "Shingo Kajihara",
+      "bio": "最近はVue.jsを学習中です。",
+      "icon": "/icons/account/my_icon.svg",
+      "header_photo": "/images/header/h01.jpg",
+      "location": "東京都",
+      "birthday": "1985-05-23",
+      "registered": "2015-06-15",
+      "following": 10,
+      "follower": 15,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "q",
+      "name": "Shingo Kajihara",
+      "bio": "最近はVue.jsを学習中です。",
+      "icon": "/icons/account/azarashi.png",
+      "header_photo": "/images/header/h01.jpg",
+      "location": "東京都",
+      "birthday": "1985-05-23",
+      "registered": "2015-06-15",
+      "following": 1002,
+      "follower": 1522,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "test",
+      "name": "test user",
+      "bio": "コーディング中………",
+      "icon": "/icons/account/default_icon.svg",
+      "header_photo": "/images/header/h02.jpg",
+      "location": "大阪府",
+      "birthday": "1990-09-12",
+      "registered": "2018-02-20",
+      "following": 20,
+      "follower": 25,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_A",
+      "name": "Test User A",
+      "bio": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "icon": "",
+      "header_photo": "/images/header/h03.jpg",
+      "location": "愛知県",
+      "birthday": "1988-04-10",
+      "registered": "2016-05-17",
+      "following": 5,
+      "follower": 7,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_B",
+      "name": "Test User B",
+      "bio": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "icon": "/icons/account/kkrn_icon_user_14.svg",
+      "header_photo": "/images/header/h04.jpg",
+      "location": "神奈川県",
+      "birthday": "1992-11-01",
+      "registered": "2017-07-25",
+      "following": 3,
+      "follower": 10,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_C",
+      "name": "Test User C",
+      "bio": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "icon": "/icons/account/kkrn_icon_user_15.svg",
+      "header_photo": "/images/header/h05.jpg",
+      "location": "千葉県",
+      "birthday": "1985-03-13",
+      "registered": "2011-09-19",
+      "following": 8,
+      "follower": 12,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_D",
+      "name": "Test User C",
+      "bio": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "icon": "/icons/account/kkrn_icon_user_15.svg",
+      "header_photo": "/images/header/h05.jpg",
+      "location": "千葉県",
+      "birthday": "1985-03-13",
+      "registered": "2011-09-19",
+      "following": 8,
+      "follower": 12,
+      "valid_flag": 1,
+      "delete_flag": 0
+    },
+    {
+      "id": "user_E",
+      "name": "Test User C",
+      "bio": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "icon": "/icons/account/kkrn_icon_user_15.svg",
+      "header_photo": "/images/header/h05.jpg",
+      "location": "千葉県",
+      "birthday": "1985-03-13",
+      "registered": "2011-09-19",
+      "following": 8,
+      "follower": 12,
+      "valid_flag": 1,
+      "delete_flag": 0
+    }
+  ],
+  "tweets": [
+    {
+      "id": "1",
+      "account_id": "user_A",
+      "text": "富山のホタルイカ、最高🍻",
+      "image": "/images/tweet/img02.jpg",
+      "likes": 9,
+      "retweets": 23,
+      "replies": 7,
+      "views": 14,
+      "datetime": "2024-03-01 15:30:00",
+      "location": "富山県滑川市",
+      "delete_flag": 0
+    },
+    {
+      "id": "2",
+      "account_id": "user_B",
+      "text": "夜間はライトアップも実施「令和6年度 八女黒木大藤まつり」開催！",
+      "image": "/images/tweet/img03.jpg",
+      "likes": 301,
+      "retweets": 2,
+      "replies": 0,
+      "views": 124,
+      "datetime": "2024-03-03 11:23:55",
+      "location": "福岡県八女市",
+      "delete_flag": 0
+    },
+    {
+      "id": "3",
+      "account_id": "user_C",
+      "text": "プレゼントキャンペーン🎁",
+      "image": "/images/tweet/img04.jpg",
+      "likes": 30133,
+      "retweets": 2322,
+      "replies": 792,
+      "views": 140230,
+      "datetime": "2024-03-10 00:21:51",
+      "location": "東京都江東区",
+      "delete_flag": 0
+    },
+    {
+      "id": "4",
+      "account_id": "user_D",
+      "text": "ガチャ爆死したなう",
+      "image": "/images/tweet/img01.jpg",
+      "likes": 13,
+      "retweets": 3,
+      "replies": 2,
+      "views": 140,
+      "datetime": "2024-03-18 20:10:01",
+      "location": "東京都江東区",
+      "delete_flag": 0
+    },
+    {
+      "id": "5",
+      "account_id": "user_E",
+      "text": "コカ・コーラ 500ml×24本がクーポンと定期お得便で1691円に #広告",
+      "image": "/images/tweet/img06.jpg",
+      "likes": 23301,
+      "retweets": 232,
+      "replies": 7333,
+      "views": 149934,
+      "datetime": "2024-03-29 15:30:11",
+      "location": null,
+      "delete_flag": 0
+    },
+    {
+      "id": "0f80",
+      "account_id": "q",
+      "text": "aaaaa",
+      "image": null,
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "views": 0,
+      "datetime": "2025-05-03 21:11:49",
+      "location": null,
+      "delete_flag": 0
+    },
+    {
+      "id": "955c",
+      "account_id": "q",
+      "text": "あああああ",
+      "image": null,
+      "likes": 0,
+      "retweets": 0,
+      "replies": 0,
+      "views": 0,
+      "datetime": "2025-05-03 21:25:14",
+      "location": null,
+      "delete_flag": 0
+    }
+  ],
+  "scheduledTweets": [
+    {
+      "id": "1",
+      "account_id": "q30387",
+      "text": "ツイート内容1",
+      "image": "/images/tweet/img01.jpg",
+      "location": "東京都",
+      "scheduled_datetime": "2025-04-19 00:00:10",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "2",
+      "account_id": "user_A",
+      "text": "ツイート内容2",
+      "image": "/images/tweet/img02.jpg",
+      "location": "大阪府",
+      "scheduled_datetime": "2025-04-19 00:00:20",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "3",
+      "account_id": "user_B",
+      "text": "ツイート内容3",
+      "image": "/images/tweet/img03.jpg",
+      "location": "北海道",
+      "scheduled_datetime": "2025-04-19 00:00:30",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "4",
+      "account_id": "user_C",
+      "text": "ツイート内容4",
+      "image": "/images/tweet/img04.jpg",
+      "location": "福岡県",
+      "scheduled_datetime": "2025-04-19 00:00:40",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "5",
+      "account_id": "q30387",
+      "text": "ツイート内容5",
+      "image": "/images/tweet/img05.jpg",
+      "location": "愛知県",
+      "scheduled_datetime": "2025-04-19 00:00:50",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "6",
+      "account_id": "q",
+      "text": "ツイート内容1　更新",
+      "image": "/images/tweet/img01.jpg",
+      "location": "東京都",
+      "scheduled_datetime": "2025-04-28 00:00:10",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "7",
+      "account_id": "q",
+      "text": "ツイート内容2",
+      "image": "/images/tweet/img02.jpg",
+      "location": "大阪府",
+      "scheduled_datetime": "2025-04-19 00:00:20",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "8",
+      "account_id": "q",
+      "text": "ツイート内容3",
+      "image": "/images/tweet/img03.jpg",
+      "location": "北海道",
+      "scheduled_datetime": "2025-04-19 00:00:30",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "9",
+      "account_id": "q",
+      "text": "ツイート内容4",
+      "image": "/images/tweet/img04.jpg",
+      "location": "福岡県",
+      "scheduled_datetime": "2025-04-19 00:00:40",
+      "created_datetime": "2025-04-19 00:00:00",
+      "delete_flag": 0
+    },
+    {
+      "id": "d8b8",
+      "account_id": "q",
+      "text": "テスト予約ツイート",
+      "image": null,
+      "location": null,
+      "scheduled_datetime": "2025-05-23 03:00",
+      "created_datetime": "2025-04-29 15:58:35.139Z",
+      "delete_flag": 0
+    },
+    {
+      "id": "610e",
+      "account_id": "q",
+      "text": "aaaaaa",
+      "image": null,
+      "location": null,
+      "scheduled_datetime": "2025-05-31 21:02:00",
+      "created_datetime": "2025-05-03 21:02:28",
+      "delete_flag": 0
+    },
+    {
+      "id": "d76c",
+      "account_id": "q",
+      "text": "aaaaaa",
+      "image": null,
+      "location": null,
+      "scheduled_datetime": "2025-05-31 21:02:00",
+      "created_datetime": "2025-05-03 21:02:52",
+      "delete_flag": 0
+    },
+    {
+      "id": "1872",
+      "account_id": "q",
+      "text": "bbbbbbbbb",
+      "image": null,
+      "location": null,
+      "scheduled_datetime": "2025-05-27 21:12:00",
+      "created_datetime": "2025-05-03 21:12:07",
+      "delete_flag": 0
+    },
+    {
+      "id": "d5a3",
+      "account_id": "q",
+      "text": "ｑｑｑｑｑｑｑｑ",
+      "image": null,
+      "location": null,
+      "scheduled_datetime": "2025-05-22 02:41:00",
+      "created_datetime": "2025-05-03 21:36:28",
+      "delete_flag": 0
+    }
+  ],
+  "trends": [
+    {
+      "id": "1",
+      "category": "スポーツ",
+      "topic": "開幕戦",
+      "count": 6254
+    },
+    {
+      "id": "2",
+      "category": "ゲーム",
+      "topic": "RTA in Japan",
+      "count": 6934
+    },
+    {
+      "id": "3",
+      "category": "音楽",
+      "topic": "J‑POP",
+      "count": 7145
+    },
+    {
+      "id": "4",
+      "category": "日本",
+      "topic": "今日は金曜日",
+      "count": 4289
+    },
+    {
+      "id": "5",
+      "category": "スマホ",
+      "topic": "バッテリー交換",
+      "count": 1109
+    },
+    {
+      "id": "6",
+      "category": "孤独のグルメ",
+      "topic": "腹が減った",
+      "count": 20199
+    },
+    {
+      "id": "7",
+      "category": "NISA",
+      "topic": "S&P500",
+      "count": 13655
+    },
+    {
+      "id": "8",
+      "category": "switch2",
+      "topic": "転売ヤー激怒",
+      "count": 3323
+    },
+    {
+      "id": "9",
+      "category": "IT業界",
+      "topic": "IPv6",
+      "count": 998
+    },
+    {
+      "id": "10",
+      "category": "花粉症",
+      "topic": "今日は注意報",
+      "count": 20913
+    },
+    {
+      "id": "11",
+      "category": "エアコン",
+      "topic": "起動確認",
+      "count": 8722
+    },
+    {
+      "id": "12",
+      "category": "かき氷",
+      "topic": "ひみつ堂",
+      "count": 649
+    },
+    {
+      "id": "13",
+      "category": "福岡",
+      "topic": "新幹線",
+      "count": 7237
+    }
+  ]
+}
