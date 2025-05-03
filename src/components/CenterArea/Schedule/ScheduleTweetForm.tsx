@@ -3,11 +3,9 @@
 
 import { useState } from 'react'
 import { useUserStore } from '@/stores/useUserStore'
-import { useRouter } from 'next/navigation'
 
 export default function ScheduleTweetForm() {
   const user = useUserStore(s => s.user)!
-  const router = useRouter()
 
   const [text, setText] = useState('')
   const [image, setImage] = useState('')
