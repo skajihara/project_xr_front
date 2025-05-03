@@ -41,8 +41,12 @@ export default function ScheduleTweetForm() {
           delete_flag: 0
         })
       })
-      // 送信後はスケジュール一覧を表示
-      router.push('/scheduled_tweet')
+      // フォーム初期化
+      setText('')
+      setImage('')
+      setScheduledDatetime('')
+      // 最新の一覧を再描画
+      window.location.reload()
     } catch (err) {
       console.error(err)
       setError('送信に失敗しました。再度お試しください。')
