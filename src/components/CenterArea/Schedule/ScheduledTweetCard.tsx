@@ -1,54 +1,45 @@
 // src/components/CenterContents/Schedule/ScheduledTweetCard.tsx
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAccount } from '@/hooks/useAccount'
 import { ScheduledTweet } from '@/types/scheduledTweet'
 
 export default function ScheduledTweetCard({ scheduled }: { scheduled: ScheduledTweet }) {
-  const [icon, setIcon] = useState<string | null>(null)
+  const router = useRouter()
+  const { account } = useAccount(scheduled.account_id)
+  const icon = account?.icon?.trim() ? account.icon : '/icons/account/default_icon.svg'
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/accounts/${scheduled.account_id}`)
-      .then(res => res.json())
-      .then(acc => {
-        const url = acc.icon?.trim() ? acc.icon : '/icons/account/default_icon.svg'
-        setIcon(url)
-      })
-      .catch(() => setIcon('/icons/account/default_icon.svg'))
-  }, [scheduled.account_id])
+  const goDetail = () => router.push(`/scheduled_tweet/${scheduled.id}`)
 
   return (
-    <Link href={`/scheduled_tweet/${scheduled.id}`} className="block">
-      <div className="border rounded p-4 space-y-2 bg-white">
-        {/* ユーザー情報 */}
-        <div className="flex items-center space-x-3">
-          {icon
-            ? <Image src={icon} alt={scheduled.account_id} width={40} height={40} className="rounded-full" />
-            : <div className="w-10 h-10 bg-gray-300 rounded-full" />}
-          <div>
-            <p className="font-semibold">@{scheduled.account_id}</p>
-            <p className="text-xs text-gray-500">
-              {new Date(scheduled.scheduled_datetime).toLocaleString()}
-            </p>
-          </div>
+    <div onClick={goDetail} className="border rounded p-4 space-y-2 bg-white cursor-pointer">
+      <div className="flex items-center space-x-3">
+        <Image
+          src={icon}
+          alt={scheduled.account_id}
+          width={40}
+          height={40}
+          className="rounded-full bg-gray-200"
+        />
+        <div>
+          <p className="font-semibold">@{scheduled.account_id}</p>
+          <p className="text-xs text-gray-500">
+            {new Date(scheduled.scheduled_datetime).toLocaleString()}
+          </p>
         </div>
-
-        {/* テキスト */}
-        <p>{scheduled.text}</p>
-
-        {/* 画像 */}
-        {scheduled.image && (
-          <Image
-            src={scheduled.image}
-            alt="scheduled image"
-            width={500}
-            height={300}
-            className="rounded"
-          />
-        )}
       </div>
-    </Link>
+      <p>{scheduled.text}</p>
+      {scheduled.image && (
+        <Image
+          src={scheduled.image}
+          alt="scheduled image"
+          width={500}
+          height={300}
+          className="rounded"
+        />
+      )}
+    </div>
   )
 }

@@ -1,39 +1,22 @@
 // src/components/LeftArea/MyProfile.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { useAccount } from '@/hooks/useAccount'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'next/navigation'
-import { Account } from '@/types/account'
+import Image from 'next/image'
 
 export default function MyProfile() {
-  const current = useUserStore(s => s.user)
+  const current = useUserStore(s => s.user)!
   const clearUser = useUserStore(s => s.clearUser)
   const router = useRouter()
-  const [account, setAccount] = useState<Account | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+
+  const { account, loading, error } = useAccount(current.id)
 
   const handleLogout = () => {
-    clearUser()             // ストアからユーザー削除
-    router.push('/auth')    // ログイン画面へリダイレクト
+    clearUser()
+    router.push('/auth')
   }
-
-  useEffect(() => {
-    if (!current) return
-    fetch(`http://localhost:5000/accounts/${current.id}`)
-      .then(res => {
-        if (!res.ok) throw new Error('アカウント情報取得失敗')
-        return res.json()
-      })
-      .then((data: Account) => setAccount(data))
-      .catch(err => {
-        console.error(err)
-        setError(err.message)
-      })
-      .finally(() => setLoading(false))
-  }, [current])
 
   if (loading) return <p>プロフィール読み込み中…</p>
   if (error || !account) return <p className="text-red-600">読み込みエラー</p>

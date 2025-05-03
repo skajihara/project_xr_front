@@ -1,29 +1,10 @@
 // src/components/RightArea/TrendTopics.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Trend } from '@/types/trend'
+import { useTrends } from '@/hooks/useTrends'
 
 export default function TrendTopics() {
-  const [trends, setTrends] = useState<Trend[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch('http://localhost:5000/trends')
-      .then(res => {
-        if (!res.ok) throw new Error('トレンドの取得に失敗')
-        return res.json()
-      })
-      .then((data: Trend[]) => {
-        setTrends(data)
-      })
-      .catch(err => {
-        console.error(err)
-        setError(err.message)
-      })
-      .finally(() => setLoading(false))
-  }, [])
+  const { trends, loading, error } = useTrends()
 
   if (loading) return <p>トレンドを読み込み中…</p>
   if (error)   return <p className="text-red-600">エラー: {error}</p>

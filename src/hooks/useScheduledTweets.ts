@@ -1,6 +1,7 @@
 // src/hooks/useScheduledTweets.ts
 import { useState, useEffect } from 'react'
 import { ScheduledTweet } from '@/types/scheduledTweet'
+import { fetcher } from '@/lib/fetcher'
 
 export function useScheduledTweets(accountId: string) {
   const [scheduledTweets, setScheduledTweets] = useState<ScheduledTweet[]>([])
@@ -9,23 +10,11 @@ export function useScheduledTweets(accountId: string) {
 
   useEffect(() => {
     if (!accountId) return
-
     setLoading(true)
     setError(null)
-
-    fetch(`http://localhost:5000/scheduledTweets?account_id=${encodeURIComponent(accountId)}`)
-      .then(res => {
-        if (!res.ok) throw new Error('予約ツイート取得に失敗しました')
-        return res.json()
-      })
-      .then((data: ScheduledTweet[]) => {
-        // delete_flag が 0 のものだけ残すならここで filter もできる
-        setScheduledTweets(data)
-      })
-      .catch(err => {
-        console.error(err)
-        setError(err instanceof Error ? err.message : '不明なエラー')
-      })
+    fetcher<ScheduledTweet[]>(`/scheduledTweets?account_id=${encodeURIComponent(accountId)}`)
+      .then(data => setScheduledTweets(data))
+      .catch(err => setError(err instanceof Error ? err.message : String(err)))
       .finally(() => setLoading(false))
   }, [accountId])
 

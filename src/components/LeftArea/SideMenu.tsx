@@ -9,17 +9,17 @@ export default function SideMenu() {
   const user   = useUserStore(s => s.user)
 
   const items = [
-    { href: '/home',         label: 'ホーム' },
-    { href: '/search',       label: '話題を検索' },
-    { href: '/notifications',label: '通知' },
-    { href: '/messages',     label: 'メッセージ' },
-    { href: '/lists',        label: 'リスト' },
-    { href: '/bookmarks',    label: 'ブックマーク' },
-    { href: '/communities',  label: 'コミュニティ' },
-    { href: '/premium',      label: 'プレミアム' },
+    { href: '/home',                label: 'ホーム' },
+    { href: '/search',              label: '話題を検索' },
+    { href: '/notifications',       label: '通知' },
+    { href: '/messages',            label: 'メッセージ' },
+    { href: '/lists',               label: 'リスト' },
+    { href: '/bookmarks',           label: 'ブックマーク' },
+    { href: '/communities',         label: 'コミュニティ' },
+    { href: '/premium',             label: 'プレミアム' },
     { href: `/profile/${user?.id}`, label: 'プロフィール' },
-    { href: '/more',         label: 'もっと見る' },
-    { href: '/scheduled_tweet', label: '予約ツイート' },
+    { href: '/more',                label: 'もっと見る' },
+    { href: '/scheduled_tweet',     label: '予約ツイート' },
   ]
 
   return (

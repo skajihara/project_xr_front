@@ -1,36 +1,18 @@
 // src/components/RightArea/RecommendedUsers.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { useAccounts } from '@/hooks/useAccounts'
 import { useUserStore } from '@/stores/useUserStore'
-import { Account } from '@/types/account'
+import Image from 'next/image'
 
 export default function RecommendedUsers() {
-  const currentUser = useUserStore(s => s.user)
-  const [users, setUsers] = useState<Account[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError]   = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch('http://localhost:5000/accounts')
-      .then(res => {
-        if (!res.ok) throw new Error('ユーザー取得失敗')
-        return res.json()
-      })
-      .then((data: Account[]) => {
-        // 自分以外から最初の5件だけチョイス
-        setUsers(data.filter(u => u.id !== currentUser?.id).slice(0, 5))
-      })
-      .catch(err => {
-        console.error(err)
-        setError(err.message)
-      })
-      .finally(() => setLoading(false))
-  }, [currentUser])
+  const current = useUserStore(s => s.user)
+  const { accounts, loading, error } = useAccounts()
 
   if (loading) return <p>おすすめユーザー読み込み中…</p>
   if (error)   return <p className="text-red-600">エラー: {error}</p>
+
+  const users = accounts.filter(u => u.id !== current?.id).slice(0, 5)
 
   return (
     <section className="bg-gray-100 p-3 rounded">
