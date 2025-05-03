@@ -4,6 +4,7 @@
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useAccount } from '@/hooks/useAccount'
+import { notFound } from 'next/navigation'
 
 export default function ProfileHeader() {
   const { accountId } = useParams() as { accountId: string }
@@ -11,7 +12,8 @@ export default function ProfileHeader() {
   const router = useRouter()
 
   if (loading) return <p>プロフィール読み込み中…</p>
-  if (error || !account) return <p className="text-red-600">エラー: {error}</p>
+  if (error) return <p className="text-red-600">エラー: {error}</p>
+  if (!account) notFound()
 
   return (
     <div className="space-y-4 bg-white border-b p-4">
