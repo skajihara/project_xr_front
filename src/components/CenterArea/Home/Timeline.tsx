@@ -6,11 +6,7 @@ import TweetForm from '@/components/CenterArea/Home/TweetForm'
 import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
 
 export default function Timeline() {
-  const { tweets, loading, error } = useTweets()
-
-  if (loading) return <p>ツイート読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
-
+  const tweets = useTweets()
   return (
     <>
       <TweetForm />

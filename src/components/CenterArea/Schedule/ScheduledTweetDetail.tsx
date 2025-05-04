@@ -9,7 +9,7 @@ import { useScheduledTweet } from '@/hooks/useScheduledTweet'
 export default function ScheduledTweetDetail() {
   const { scheduleId } = useParams() as { scheduleId: string }
   const router = useRouter()
-  const { scheduled, loading, error } = useScheduledTweet(scheduleId)
+  const scheduled = useScheduledTweet(scheduleId)
 
   // 編集フォーム用 state
   const [isEditing, setIsEditing] = useState(false)
@@ -28,8 +28,6 @@ export default function ScheduledTweetDetail() {
     }
   }, [scheduled])
 
-  if (loading) return <p>詳細読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
   if (!scheduled) notFound()
 
   // 更新処理

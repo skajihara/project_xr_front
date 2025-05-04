@@ -7,12 +7,8 @@ import { useTweetsByAccount } from '@/hooks/useTweetsByAccount'
 
 export default function ProfileTweets() {
   const { accountId } = useParams() as { accountId: string }
-  const { tweets, loading, error } = useTweetsByAccount(accountId)
-
-  if (loading) return <p>ツイート読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
+  const tweets = useTweetsByAccount(accountId)
   if (tweets.length === 0) return <p>まだツイートがないよ</p>
-
   return (
     <ul className="space-y-4 p-4 bg-white">
       {tweets.map(tweet => (
