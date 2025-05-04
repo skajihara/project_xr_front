@@ -8,11 +8,9 @@ import { ScheduledTweet } from '@/types/scheduledTweet'
 
 export default function ScheduledTweetCard({ scheduled }: { scheduled: ScheduledTweet }) {
   const router = useRouter()
-  const { account } = useAccount(scheduled.account_id)
+  const account = useAccount(scheduled.account_id)
   const icon = account?.icon?.trim() ? account.icon : '/icons/account/default_icon.svg'
-
   const goDetail = () => router.push(`/scheduled_tweet/${scheduled.id}`)
-
   return (
     <div onClick={goDetail} className="border rounded p-4 space-y-2 bg-white cursor-pointer">
       <div className="flex items-center space-x-3">
@@ -38,6 +36,7 @@ export default function ScheduledTweetCard({ scheduled }: { scheduled: Scheduled
           width={500}
           height={300}
           className="rounded"
+          priority
         />
       )}
     </div>

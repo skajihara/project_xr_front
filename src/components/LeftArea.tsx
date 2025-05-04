@@ -1,6 +1,8 @@
 // src/components/LeftArea.tsx
 'use client'
 
+import { Suspense } from 'react'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import MyProfile  from '@/components/LeftArea/MyProfile'
 import SideMenu from '@/components/LeftArea/SideMenu'
 
@@ -14,7 +16,11 @@ export default function LeftArea() {
 
       {/* プロフィール */}
       <footer className="p-4 border-t">
-        <MyProfile />
+        <ErrorBoundary>
+          <Suspense fallback={<p>プロフィール読み込み中…</p>}>
+            <MyProfile />
+          </Suspense>
+        </ErrorBoundary>
       </footer>
     </div>
   )

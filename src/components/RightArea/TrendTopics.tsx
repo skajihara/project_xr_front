@@ -4,11 +4,7 @@
 import { useTrends } from '@/hooks/useTrends'
 
 export default function TrendTopics() {
-  const { trends, loading, error } = useTrends()
-
-  if (loading) return <p>トレンドを読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
-
+  const trends = useTrends()
   return (
     <section className="bg-gray-100 p-3 rounded">
       <h3 className="font-bold mb-2">トレンドトピックス</h3>

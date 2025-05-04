@@ -7,13 +7,8 @@ import Image from 'next/image'
 
 export default function RecommendedUsers() {
   const current = useUserStore(s => s.user)
-  const { accounts, loading, error } = useAccounts()
-
-  if (loading) return <p>おすすめユーザー読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
-
+  const accounts = useAccounts()
   const users = accounts.filter(u => u.id !== current?.id).slice(0, 5)
-
   return (
     <section className="bg-gray-100 p-3 rounded">
       <h3 className="font-bold mb-2">おすすめユーザー</h3>

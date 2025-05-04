@@ -8,7 +8,7 @@ import { Tweet } from '@/types/tweet'
 
 export default function TweetCard({ tweet }: { tweet: Tweet }) {
   const router = useRouter()
-  const { account } = useAccount(tweet.account_id)
+  const account = useAccount(tweet.account_id)
   const icon = account?.icon?.trim() ? account.icon : '/icons/account/default_icon.svg'
 
   const goTweet = () => router.push(`/tweet/${tweet.id}`)

@@ -11,15 +11,12 @@ export default function MyProfile() {
   const clearUser = useUserStore(s => s.clearUser)
   const router = useRouter()
 
-  const { account, loading, error } = useAccount(current.id)
+  const account = useAccount(current.id)
 
   const handleLogout = () => {
     clearUser()
     router.push('/auth')
   }
-
-  if (loading) return <p>プロフィール読み込み中…</p>
-  if (error || !account) return <p className="text-red-600">読み込みエラー</p>
 
   return (
     <div className="flex items-center space-x-3">

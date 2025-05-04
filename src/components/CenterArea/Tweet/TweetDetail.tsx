@@ -10,7 +10,7 @@ import { useUserStore } from '@/stores/useUserStore'
 export default function TweetDetail() {
   const { tweetId } = useParams() as { tweetId: string }
   const router = useRouter()
-  const { tweet, loading, error } = useTweet(tweetId)
+  const tweet = useTweet(tweetId)
   const currentUser = useUserStore(s => s.user)
 
   // 編集用 state
@@ -28,8 +28,6 @@ export default function TweetDetail() {
     }
   }, [tweet])
 
-  if (loading) return <p>詳細読み込み中…</p>
-  if (error)   return <p className="text-red-600">エラー: {error}</p>
   if (!tweet)  notFound()
 
   // 自分のツイートなら編集・削除可能

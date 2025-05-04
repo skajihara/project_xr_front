@@ -8,13 +8,9 @@ import { notFound } from 'next/navigation'
 
 export default function ProfileHeader() {
   const { accountId } = useParams() as { accountId: string }
-  const { account, loading, error } = useAccount(accountId)
+  const account = useAccount(accountId)
   const router = useRouter()
-
-  if (loading) return <p>プロフィール読み込み中…</p>
-  if (error) return <p className="text-red-600">エラー: {error}</p>
   if (!account) notFound()
-
   return (
     <div className="space-y-4 bg-white border-b p-4">
       <button onClick={() => router.push('/home')} className="text-blue-500 hover:underline">
