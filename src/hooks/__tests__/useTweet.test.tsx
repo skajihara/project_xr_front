@@ -10,8 +10,8 @@ jest.mock('@/lib/fetcher')
 const mockedFetcher = fetcher as jest.MockedFunction<typeof fetcher>
 
 function TestComponent({ id }: { id: string | number | null }) {
-    const key = id != null ? `/tweets/${id}` : null
-    const { data: tweet } = useSWR<{ id: number; text: string }>(key, fetcher, { suspense: false })
+  const key = id != null ? `/tweets/${id}` : null
+  const { data: tweet } = useSWR<{ id: number; text: string }>(key, fetcher, { suspense: false })
 
   if (!tweet) return <div>Loading fallback</div>
 

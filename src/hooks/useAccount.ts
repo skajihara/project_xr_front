@@ -1,3 +1,4 @@
+// src/hooks/useAccount.ts
 import useSWR from 'swr'
 import { Account } from '@/types/account'
 import { fetcher } from '@/lib/fetcher'
