@@ -80,3 +80,8 @@
 # 注意事項
 
 どうやらプロジェクト特有の問題で、jestでもvitestでもコンポーネントの単体テストが成功しないらしい。
+Next.js App Router + SWR（suspense: true）構成だと、"ただレンダリングすれば終わり"ではない。
+- suspense解除待ちが必要だが
+- useSWRのPromise内部を強制同期化　または　Suspense fallbackからresolveされるまで待機
+- テストコードでact()管理する必要がある
+
