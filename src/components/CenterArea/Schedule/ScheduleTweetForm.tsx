@@ -62,6 +62,7 @@ export default function ScheduleTweetForm() {
         <textarea
           value={text}
           onChange={e=>setText(e.target.value)}
+          placeholder="予約ツイートの内容を入力してね～"
           className="w-full p-2 border rounded"
           required
         />

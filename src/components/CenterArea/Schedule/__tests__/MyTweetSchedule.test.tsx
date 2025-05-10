@@ -101,6 +101,8 @@ describe('MyTweetSchedule component with suspense', () => {
 
     setup()
 
+    expect(screen.getByPlaceholderText('予約ツイートの内容を入力してね～')).toBeInTheDocument()
+
     expect(await screen.findByText('明日の予定です')).toBeInTheDocument()
     expect(screen.getByText('会議のリマインダー')).toBeInTheDocument()
     expect(screen.getByText('週末のイベント')).toBeInTheDocument()
@@ -122,6 +124,8 @@ describe('MyTweetSchedule component with suspense', () => {
 
     setup()
 
+    expect(screen.getByPlaceholderText('予約ツイートの内容を入力してね～')).toBeInTheDocument()
+    
     expect(await screen.findByRole('list')).toBeInTheDocument()
     expect(screen.queryAllByRole('listitem')).toHaveLength(0)
   })
