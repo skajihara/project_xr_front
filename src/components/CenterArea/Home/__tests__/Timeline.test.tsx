@@ -1,3 +1,4 @@
+// src/components/CenterArea/Home/Timeline.test.tsx
 import React, { Suspense } from 'react'
 import { render, screen } from '@testing-library/react'
 import { SWRConfig } from 'swr'
