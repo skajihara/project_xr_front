@@ -53,27 +53,61 @@ describe('Timeline component with suspense', () => {
   }
 
   it('ツイートリストが正常にレンダリングされる', async () => {
-    (useTweets as jest.Mock).mockImplementation(() => [
+    (useTweets as jest.Mock).mockReturnValue([
       {
         id: 1,
         account_id: 'user1',
-        text: 'こんにちはTimeline！',
+        text: 'おはよう！',
         image: null,
         likes: 0,
         retweets: 0,
         replies: 0,
         views: 0,
-        datetime: '2024-01-01T00:00:00',
+        datetime: '2024-01-01 08:00:00',
         location: null,
         delete_flag: 0,
-      }
+      },
+      {
+        id: 2,
+        account_id: 'user2',
+        text: 'こんにちは！',
+        image: null,
+        likes: 3,
+        retweets: 1,
+        replies: 2,
+        views: 100,
+        datetime: '2024-01-01 12:00:00',
+        location: null,
+        delete_flag: 0,
+      },
+      {
+        id: 3,
+        account_id: 'user3',
+        text: 'おやすみ～',
+        image: null,
+        likes: 10,
+        retweets: 5,
+        replies: 1,
+        views: 500,
+        datetime: '2024-01-01 23:00:00',
+        location: null,
+        delete_flag: 0,
+      },
     ])
-
+  
     setup()
+ 
+    // TweetForm の textarea も描画されてること
+    expect(screen.getByPlaceholderText('いまどうしてる？')).toBeInTheDocument()
 
-    expect(await screen.findByText('こんにちはTimeline！')).toBeInTheDocument()
-    expect(screen.getAllByRole('listitem')).toHaveLength(1)
-  })
+    // 3件のツイートが表示されること
+    expect(await screen.findByText('おはよう！')).toBeInTheDocument()
+    expect(screen.getByText('こんにちは！')).toBeInTheDocument()
+    expect(screen.getByText('おやすみ～')).toBeInTheDocument()
+    
+    // listitem の数も確認（TweetCardのliが3件）
+    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+  })  
 
   it('フェッチエラー時にエラーメッセージを表示する', async () => {
     (useTweets as jest.Mock).mockImplementation(() => {
