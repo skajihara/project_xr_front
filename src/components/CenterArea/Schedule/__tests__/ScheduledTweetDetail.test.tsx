@@ -81,4 +81,30 @@ describe('ScheduledTweetDetail 表示系テスト', () => {
     expect(image.value).toBe('')
     expect(datetime.value).toBe(mockScheduled.scheduled_datetime)
   })
+
+  it('編集モードではフォーム要素が正しく表示される', async () => {
+    render(<ScheduledTweetDetail />)
+
+    fireEvent.click(await screen.findByText('編集'))
+
+    expect(screen.getByLabelText('テキスト')).toBeInTheDocument()
+    expect(screen.getByLabelText('画像URL (任意)')).toBeInTheDocument()
+    expect(screen.getByLabelText('予約日時')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '保存' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'キャンセル' })).toBeInTheDocument()
+  })
+
+  it('編集フォームの初期値がツイート内容と一致している', async () => {
+    render(<ScheduledTweetDetail />)
+
+    fireEvent.click(await screen.findByText('編集'))
+
+    const textArea = screen.getByLabelText('テキスト') as HTMLTextAreaElement
+    const imageInput = screen.getByLabelText('画像URL (任意)') as HTMLInputElement
+    const datetimeInput = screen.getByLabelText('予約日時') as HTMLInputElement
+
+    expect(textArea.value).toBe('スケジュール投稿のテストだよ！')
+    expect(imageInput.value).toBe('')
+    expect(datetimeInput.value).toBe('2025-01-01T10:00')
+  })
 })
