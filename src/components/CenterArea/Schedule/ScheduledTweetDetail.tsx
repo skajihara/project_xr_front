@@ -116,8 +116,9 @@ export default function ScheduledTweetDetail() {
           {errorMsg && <p className="text-red-600">{errorMsg}</p>}
 
           <div>
-            <label className="block mb-1">テキスト</label>
+            <label htmlFor="text" className="block mb-1">テキスト</label>
             <textarea
+              id="text"
               value={text}
               onChange={e => setText(e.target.value)}
               className="w-full p-2 border rounded resize-none"
@@ -127,8 +128,9 @@ export default function ScheduledTweetDetail() {
           </div>
 
           <div>
-            <label className="block mb-1">画像URL (任意)</label>
+            <label htmlFor="image" className="block mb-1">画像URL (任意)</label>
             <input
+              id="image"
               type="text"
               value={image}
               onChange={e => setImage(e.target.value)}
@@ -137,8 +139,9 @@ export default function ScheduledTweetDetail() {
           </div>
 
           <div>
-            <label className="block mb-1">予約日時</label>
+            <label htmlFor="datetime" className="block mb-1">予約日時</label>
             <input
+              id="datetime"
               type="datetime-local"
               value={scheduledDatetime}
               onChange={e => setScheduledDatetime(e.target.value)}
