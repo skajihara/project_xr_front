@@ -87,38 +87,61 @@ describe('ScheduledTweetDetail 編集・キャンセル機能のテスト', () =
   })
 
   it('フォームを編集して保存すると fetch(PUT) と reload が呼ばれる', async () => {
-  const mockReload = jest.fn()
-  Object.defineProperty(window, 'location', {
-    value: { reload: mockReload },
-    writable: true,
+    const mockReload = jest.fn()
+    Object.defineProperty(window, 'location', {
+      value: { reload: mockReload },
+      writable: true,
+    })
+
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValue({ ok: true })
+
+    render(<ScheduledTweetDetail />)
+
+    // 編集モードへ
+    fireEvent.click(await screen.findByText('編集'))
+
+    // 値を変更する
+    fireEvent.change(screen.getByLabelText('テキスト'), {
+      target: { value: '変更されたツイートだよ！' },
+    })
+    fireEvent.change(screen.getByLabelText('予約日時'), {
+      target: { value: '2025-01-02T14:00' },
+    })
+
+    // 保存クリック
+    fireEvent.click(screen.getByRole('button', { name: '保存' }))
+
+    // fetchとreloadが呼ばれたか確認
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledTimes(1)
+      expect(mockFetch.mock.calls[0][0]).toBe('http://localhost:5000/scheduledTweets/1')
+      expect(mockFetch.mock.calls[0][1].method).toBe('PUT')
+      expect(mockReload).toHaveBeenCalled()
+    })
   })
 
-  const mockFetch = fetch as jest.Mock
-  mockFetch.mockResolvedValue({ ok: true })
+  it('保存時に fetch(PUT) が失敗するとエラーメッセージが表示される', async () => {
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValue({ ok: false }) // ❌ 失敗応答
 
-  render(<ScheduledTweetDetail />)
+    render(<ScheduledTweetDetail />)
 
-  // 編集モードへ
-  fireEvent.click(await screen.findByText('編集'))
+    // 編集モードへ
+    fireEvent.click(await screen.findByText('編集'))
 
-  // 値を変更する
-  fireEvent.change(screen.getByLabelText('テキスト'), {
-    target: { value: '変更されたツイートだよ！' },
+    // 値を変更する
+    fireEvent.change(screen.getByLabelText('テキスト'), {
+      target: { value: '失敗ケースのテストだよ！' },
+    })
+    fireEvent.change(screen.getByLabelText('予約日時'), {
+      target: { value: '2025-01-02T14:00' },
+    })
+
+    // 保存クリック
+    fireEvent.click(screen.getByRole('button', { name: '保存' }))
+
+    // エラーメッセージ確認
+    expect(await screen.findByText('更新に失敗しました。')).toBeInTheDocument()
   })
-  fireEvent.change(screen.getByLabelText('予約日時'), {
-    target: { value: '2025-01-02T14:00' },
-  })
-
-  // 保存クリック
-  fireEvent.click(screen.getByRole('button', { name: '保存' }))
-
-  // fetchとreloadが呼ばれたか確認
-  await waitFor(() => {
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch.mock.calls[0][0]).toBe('http://localhost:5000/scheduledTweets/1')
-    expect(mockFetch.mock.calls[0][1].method).toBe('PUT')
-    expect(mockReload).toHaveBeenCalled()
-  })
-})
-
 })
