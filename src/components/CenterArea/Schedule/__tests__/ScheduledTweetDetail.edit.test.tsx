@@ -3,6 +3,8 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import ScheduledTweetDetail from '../../Schedule/ScheduledTweetDetail'
 import { useRouter, useParams } from 'next/navigation'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
+import { mockScheduledTweets } from '@/lib/mock/scheduledTweets'
+import { mock } from 'node:test'
 
 // モック
 jest.mock('next/navigation', () => ({
@@ -27,8 +29,18 @@ jest.mock('next/image', () => ({
   },
 }))
 
-describe('ScheduledTweetDetail 編集・キャンセル機能のテスト', () => {
+describe('ScheduledTweetDetail 編集テスト', () => {
   const pushMock = jest.fn()
+  const mockScheduled = {
+    id: 1,
+    account_id: 'user1',
+    text: 'スケジュール投稿のテストだよ！',
+    image: null,
+    location: 'Tokyo',
+    scheduled_datetime: '2025-01-01T10:00',
+    created_datetime: '2024-12-31 10:00',
+    delete_flag: 0,
+  }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -53,18 +65,43 @@ describe('ScheduledTweetDetail 編集・キャンセル機能のテスト', () =
     })
   })
 
-  it('編集モードに切り替わり、フォームが表示されることを確認する', async () => {
+  it('編集フォームの初期値がツイート内容と一致している', async () => {
+    render(<ScheduledTweetDetail />)
+    fireEvent.click(screen.getByText('編集'))
+
+    const text = await screen.findByLabelText('テキスト') as HTMLTextAreaElement
+    const image = screen.getByLabelText('画像URL (任意)') as HTMLInputElement
+    const datetime = screen.getByLabelText('予約日時') as HTMLInputElement
+
+    expect(text.value).toBe(mockScheduled.text)
+    expect(image.value).toBe('')
+    expect(datetime.value).toBe(mockScheduled.scheduled_datetime)
+  })
+
+  it('編集モードではフォーム要素が正しく表示される', async () => {
     render(<ScheduledTweetDetail />)
 
-    // 編集ボタンをクリックして編集モードに入る
     fireEvent.click(await screen.findByText('編集'))
 
-    // フォーム要素が表示されることを確認
-    expect(await screen.findByLabelText('テキスト')).toBeInTheDocument()
+    expect(screen.getByLabelText('テキスト')).toBeInTheDocument()
     expect(screen.getByLabelText('画像URL (任意)')).toBeInTheDocument()
     expect(screen.getByLabelText('予約日時')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '保存' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'キャンセル' })).toBeInTheDocument()
+  })
+
+  it('編集フォームの初期値がツイート内容と一致している', async () => {
+    render(<ScheduledTweetDetail />)
+
+    fireEvent.click(await screen.findByText('編集'))
+
+    const textArea = screen.getByLabelText('テキスト') as HTMLTextAreaElement
+    const imageInput = screen.getByLabelText('画像URL (任意)') as HTMLInputElement
+    const datetimeInput = screen.getByLabelText('予約日時') as HTMLInputElement
+
+    expect(textArea.value).toBe('スケジュール投稿のテストだよ！')
+    expect(imageInput.value).toBe('')
+    expect(datetimeInput.value).toBe('2025-01-01T10:00')
   })
 
   it('キャンセルボタンをクリックすると編集モードが終了し、元の表示に戻ることを確認する', async () => {

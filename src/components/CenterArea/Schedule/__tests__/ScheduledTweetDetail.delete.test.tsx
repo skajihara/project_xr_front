@@ -13,7 +13,7 @@ jest.mock('@/hooks/useScheduledTweet', () => ({
   useScheduledTweet: jest.fn(),
 }))
 
-describe('ScheduledTweetDetail 削除のテスト', () => {
+describe('ScheduledTweetDetail 削除テスト', () => {
   const pushMock = jest.fn()
   const confirmMock = jest.fn()
   const alertMock = jest.fn()
