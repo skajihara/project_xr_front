@@ -1,5 +1,6 @@
+// src/components/CenterArea/Schedule/__tests__/ScheduledTweetDetail.display.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react'
-import ScheduledTweetDetail from '../../Schedule/ScheduledTweetDetail'
+import ScheduledTweetDetail from '../ScheduledTweetDetail'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
 import { useRouter, useParams } from 'next/navigation'
 
