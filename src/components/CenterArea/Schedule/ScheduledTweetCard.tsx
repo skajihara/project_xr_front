@@ -29,6 +29,7 @@ export default function ScheduledTweetCard({ scheduled }: { scheduled: Scheduled
         </div>
       </div>
       <p>{scheduled.text}</p>
+      {scheduled.location && (<p className="text-sm text-gray-500">{scheduled.location}</p>)}
       {scheduled.image && (
         <Image
           src={scheduled.image}
