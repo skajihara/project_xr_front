@@ -10,6 +10,7 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
   const router = useRouter()
   const account = useAccount(tweet.account_id)
   const icon = account?.icon?.trim() ? account.icon : '/icons/account/default_icon.svg'
+  const location = tweet.location?.trim() ? tweet.location :  'unknown'
 
   const goTweet = () => router.push(`/tweet/${tweet.id}`)
   const goProfile = (e: React.MouseEvent) => {
@@ -47,10 +48,11 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
         />
       )}
       <div className="flex space-x-4 text-sm text-gray-500">
-        <span>❤ {tweet.likes}</span>
-        <span>🔁 {tweet.retweets}</span>
-        <span>💬 {tweet.replies}</span>
-        <span>👁️ {tweet.views}</span>
+        <span>{location} </span>
+        <span>❤ {tweet.likes} </span>
+        <span>🔁 {tweet.retweets} </span>
+        <span>💬 {tweet.replies} </span>
+        <span>👁️ {tweet.views} </span>
       </div>
     </div>
   )
