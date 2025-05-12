@@ -1,3 +1,4 @@
+// src/components/LeftArea/__tests__/MyProfile.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Suspense } from 'react'
 import { SWRConfig } from 'swr'
@@ -6,10 +7,12 @@ import React from 'react'
 // next/image モック
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>): JSX.Element => {
-    return <img {...props} alt={props.alt ?? 'image'} />
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img {...props} alt={props.alt || 'image'} />
   },
 }))
+
 
 // ErrorBoundary
 class TestErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
@@ -48,9 +51,28 @@ describe('MyProfile component', () => {
     )
   }
 
-  it('プロフィール情報とログアウトボタンが表示される', async () => {
-    const pushMock = jest.fn()
+  it('プロフィール情報が表示される', async () => {
+    jest.doMock('next/navigation', () => ({
+      useRouter: () => ({ push: jest.fn() }),
+    }))
+    jest.doMock('@/stores/useUserStore', () => ({
+      useUserStore: (selector: (s: { user: { id: string }; clearUser: () => void }) => unknown) =>
+        selector({ user: { id: 'alice' }, clearUser: jest.fn() }),
+    }))
+    jest.doMock('@/hooks/useAccount', () => ({
+      useAccount: () => ({ id: 'alice', name: 'アリス', icon: '' }),
+    }))
+
+    await setup()
+
+    expect(await screen.findByText('アリス')).toBeInTheDocument()
+    expect(screen.getByText('@alice')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'ログアウト' })).toBeInTheDocument()
+  })
+
+  it('ログアウトボタンクリックでclearUserとpush("/auth")が呼ばれる', async () => {
     const clearUserMock = jest.fn()
+    const pushMock = jest.fn()
 
     jest.doMock('next/navigation', () => ({
       useRouter: () => ({ push: pushMock }),
@@ -65,9 +87,6 @@ describe('MyProfile component', () => {
 
     await setup()
 
-    expect(await screen.findByText('アリス')).toBeInTheDocument()
-    expect(screen.getByText('@alice')).toBeInTheDocument()
-
     const button = screen.getByRole('button', { name: 'ログアウト' })
     fireEvent.click(button)
 
@@ -75,7 +94,7 @@ describe('MyProfile component', () => {
     expect(pushMock).toHaveBeenCalledWith('/auth')
   })
 
-  it('useAccount がエラーを投げた場合にエラー表示される', async () => {
+  it('useAccountがエラーを投げたらエラーメッセージが表示される', async () => {
     jest.doMock('next/navigation', () => ({
       useRouter: () => ({ push: jest.fn() }),
     }))

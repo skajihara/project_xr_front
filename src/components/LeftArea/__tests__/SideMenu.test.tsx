@@ -1,3 +1,4 @@
+// src/components/LeftArea/__tests__/SideMenu.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Suspense } from 'react'
 import { SWRConfig } from 'swr'
@@ -40,8 +41,10 @@ describe('SideMenu component', () => {
     )
   }
 
-  it('すべてのメニューリンクが表示され、クリックでpushされる', async () => {
+  it('ホーム、プロフィール、予約ツイートのリンククリックでpushされる', async () => {
     const pushMock = jest.fn()
+
+    // 必ず setup より前に doMock する！
     jest.doMock('next/navigation', () => ({
       useRouter: () => ({ push: pushMock }),
     }))
@@ -52,12 +55,16 @@ describe('SideMenu component', () => {
 
     await setup()
 
-    expect(await screen.findByText('ホーム')).toBeInTheDocument()
-    expect(screen.getByText('プロフィール')).toHaveAttribute('href', '/profile/alice')
+    const homeLink = screen.getByText('ホーム')
+    const profileLink = screen.getByText('プロフィール')
+    const scheduleLink = screen.getByText('予約ツイート')
 
-    const link = screen.getByText('プロフィール')
-    fireEvent.click(link)
+    fireEvent.click(homeLink)
+    fireEvent.click(profileLink)
+    fireEvent.click(scheduleLink)
 
+    expect(pushMock).toHaveBeenCalledWith('/home')
     expect(pushMock).toHaveBeenCalledWith('/profile/alice')
+    expect(pushMock).toHaveBeenCalledWith('/scheduled_tweet')
   })
 })
