@@ -10,7 +10,7 @@ export default function ProfileHeader() {
   const { accountId } = useParams() as { accountId: string }
   const account = useAccount(accountId)
   const router = useRouter()
-  if (!account) notFound()
+  if (!account) return notFound()
   return (
     <div className="space-y-4 bg-white border-b p-4">
       <button onClick={() => router.push('/home')} className="text-blue-500 hover:underline">
