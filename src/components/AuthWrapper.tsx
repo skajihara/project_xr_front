@@ -1,6 +1,8 @@
 // components/AuthWrapper.tsx
 'use client'
 
+import styles from '@/styles/AuthWrapper.module.css' 
+
 import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -32,22 +34,32 @@ export default function AuthWrapper({ children }: Props) {
     return null
   }
 
+  // ページに応じた表示判定
+  const isAuthPage    = path === '/auth'
+  const isDetailPage  = path.startsWith('/tweet/') || path.startsWith('/scheduled_tweet/')
+  const showLeftArea  = !isAuthPage
+  const showRightArea = !isAuthPage && !isDetailPage
+
   // 認証済 or /auth なら画面を描画
   if (path === '/auth') {
     return <>{children}</>
   }
 
-  return (
-    <div className="flex h-screen">
-      <div className="w-1/4 border-r overflow-auto">
-        <LeftArea />
-      </div>
-      <div className="flex-1 overflow-auto">
+    return (
+    <div className={styles.wrapper}>
+      {showLeftArea && (
+        <div className={styles.left}>
+          <LeftArea />
+        </div>
+      )}
+      <div className={styles.center}>
         <CenterArea>{children}</CenterArea>
       </div>
-      <div className="w-1/4 border-l overflow-auto">
-        <RightArea />
-      </div>
+      {showRightArea && (
+        <div className={styles.right}>
+          <RightArea />
+        </div>
+      )}
     </div>
   )
 }

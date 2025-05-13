@@ -1,6 +1,8 @@
 // src/components/RightArea.tsx
 'use client'
 
+import styles from '@/styles/RightArea.module.css'
+
 import { Suspense } from 'react'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import TrendTopics from '@/components/RightArea/TrendTopics'
@@ -8,7 +10,7 @@ import RecommendedUsers from '@/components/RightArea/RecommendedUsers'
 
 export default function RightArea() {
   return (
-    <div className="flex flex-col h-full p-4 space-y-6">
+    <div className={styles.container}>
       <ErrorBoundary>
         <Suspense fallback={<p>トレンドを読み込み中…</p>}>
           <TrendTopics />

@@ -1,0 +1,26 @@
+/* src/components/AuthWrapper.module.css */
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.left {
+  width: 25%;
+  min-width: 240px;
+  border-right: 1px solid #ccc;
+  overflow-y: auto;
+}
+
+.center {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.right {
+  width: 25%;
+  min-width: 240px;
+  border-left: 1px solid #ccc;
+  overflow-y: auto;
+}

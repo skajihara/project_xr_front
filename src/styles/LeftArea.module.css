@@ -1,0 +1,8 @@
+.container {
+  padding: 1rem;
+  background-color: #ffffff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
