@@ -1,55 +1,67 @@
-// src/components/CenterArea/Schedule/__tests__/ScheduledTweetDetail.delete.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import ScheduledTweetDetail from '../ScheduledTweetDetail'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter, useParams, notFound } from 'next/navigation'
 
 // モック定義
+jest.mock('@/hooks/useScheduledTweet', () => ({
+  useScheduledTweet: jest.fn(),
+}))
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
   useParams: jest.fn(),
+  notFound: jest.fn(),
 }))
-jest.mock('@/hooks/useScheduledTweet', () => ({
-  useScheduledTweet: jest.fn(),
+jest.mock('@/hooks/useAccount', () => ({
+  useAccount: () => ({ icon: null }),
+}))
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img {...props} alt={props.alt || 'image'} />
+  },
 }))
 
 describe('ScheduledTweetDetail 削除テスト', () => {
   const pushMock = jest.fn()
   const confirmMock = jest.fn()
   const alertMock = jest.fn()
-  const originalConfirm = window.confirm
-  const originalAlert = window.alert
-  const scheduled = {
+  const mockScheduled = {
     id: 1,
     account_id: 'user1',
-    text: '削除対象の予約ツイート',
+    text: 'スケジュール投稿のテストだよ！',
     image: null,
     location: 'Tokyo',
-    scheduled_datetime: '2025-01-01T10:00:00',
-    created_datetime: '2024-12-31T10:00:00',
+    scheduled_datetime: '2025-01-01T10:00',
+    created_datetime: '2024-12-31 10:00',
     delete_flag: 0,
   }
 
   beforeEach(() => {
     jest.clearAllMocks()
     ;(useParams as jest.Mock).mockReturnValue({ scheduleId: '1' })
-    ;(useScheduledTweet as jest.Mock).mockReturnValue(scheduled)
     ;(useRouter as jest.Mock).mockReturnValue({ push: pushMock })
-    global.fetch = jest.fn()
+    ;(useScheduledTweet as jest.Mock).mockReturnValue(mockScheduled)
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    })
+
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { reload: jest.fn() },
+    })
 
     window.confirm = confirmMock
     window.alert = alertMock
   })
 
-  afterAll(() => {
-    window.confirm = originalConfirm
-    window.alert = originalAlert
-  })
-
-  it('削除ボタン押下で confirm が呼ばれる', () => {
+  it('削除ボタン押下で confirm が呼ばれる', async () => {
     render(<ScheduledTweetDetail />)
 
-    const button = screen.getByText('削除')
+    const button = await screen.findByRole('button', { name: '削除' })
     fireEvent.click(button)
 
     expect(confirmMock).toHaveBeenCalledWith('この予約ツイートを削除してもいいですか？')
@@ -61,21 +73,24 @@ describe('ScheduledTweetDetail 削除テスト', () => {
 
     render(<ScheduledTweetDetail />)
 
-    const button = screen.getByText('削除')
+    const button = await screen.findByRole('button', { name: '削除' })
     fireEvent.click(button)
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:5000/scheduledTweets/1', { method: 'DELETE' })
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:5000/scheduledTweets/1',
+        { method: 'DELETE' }
+      )
       expect(pushMock).toHaveBeenCalledWith('/scheduled_tweet')
     })
   })
 
-  it('confirm が false の場合、fetch や router.push は呼ばれない', () => {
+  it('confirm が false の場合、fetch や router.push は呼ばれない', async () => {
     confirmMock.mockReturnValue(false)
 
     render(<ScheduledTweetDetail />)
 
-    const button = screen.getByText('削除')
+    const button = await screen.findByRole('button', { name: '削除' })
     fireEvent.click(button)
 
     expect(fetch).not.toHaveBeenCalled()
@@ -88,7 +103,8 @@ describe('ScheduledTweetDetail 削除テスト', () => {
 
     render(<ScheduledTweetDetail />)
 
-    fireEvent.click(screen.getByText('削除'))
+    const button = await screen.findByRole('button', { name: '削除' })
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(alertMock).toHaveBeenCalledWith('削除に失敗しました。')

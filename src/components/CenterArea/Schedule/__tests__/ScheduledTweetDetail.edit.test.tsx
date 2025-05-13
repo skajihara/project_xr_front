@@ -3,8 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import ScheduledTweetDetail from '../../Schedule/ScheduledTweetDetail'
 import { useRouter, useParams } from 'next/navigation'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
-import { mockScheduledTweets } from '@/lib/mock/scheduledTweets'
-import { mock } from 'node:test'
 
 // モック
 jest.mock('next/navigation', () => ({
