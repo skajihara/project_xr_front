@@ -1,6 +1,8 @@
 // src/components/CenterContents/Schedule/ScheduledTweetCard.tsx
 'use client'
 
+import styles from '@/styles/ScheduledTweetCard.module.css'
+
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAccount } from '@/hooks/useAccount'
@@ -11,34 +13,41 @@ export default function ScheduledTweetCard({ scheduled }: { scheduled: Scheduled
   const account = useAccount(scheduled.account_id)
   const icon = account?.icon?.trim() ? account.icon : '/icons/account/default_icon.svg'
   const goDetail = () => router.push(`/scheduled_tweet/${scheduled.id}`)
+
   return (
-    <div onClick={goDetail} className="border rounded p-4 space-y-2 bg-white cursor-pointer">
-      <div className="flex items-center space-x-3">
+    <div onClick={goDetail} className={styles.container}>
+      <div className={styles.header}>
         <Image
           src={icon}
           alt={scheduled.account_id}
           width={40}
           height={40}
-          className="rounded-full bg-gray-200"
+          className={styles.icon}
         />
         <div>
-          <p className="font-semibold">@{scheduled.account_id}</p>
-          <p className="text-xs text-gray-500">
+          <p className={styles.account}>@{scheduled.account_id}</p>
+          <p className={styles.datetime}>
             {new Date(scheduled.scheduled_datetime).toLocaleString()}
           </p>
         </div>
       </div>
-      <p>{scheduled.text}</p>
-      {scheduled.location && (<p className="text-sm text-gray-500">{scheduled.location}</p>)}
+
+      <p className={styles.text}>{scheduled.text}</p>
+
+      {scheduled.location && (
+        <p className={styles.location}>{scheduled.location}</p>
+      )}
+
       {scheduled.image && (
-        <Image
-          src={scheduled.image}
-          alt="scheduled image"
-          width={500}
-          height={300}
-          className="rounded"
-          priority
-        />
+        <div className={styles.imageWrapper}>
+          <Image
+            src={scheduled.image}
+            alt="scheduled image"
+            fill
+            className={styles.image}
+            priority
+          />
+        </div>
       )}
     </div>
   )
