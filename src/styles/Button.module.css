@@ -27,6 +27,15 @@
   background-color: #c81e4d;
 }
 
+.gray {
+  background-color: #e6ecf0;
+  color: #14171a;
+}
+
+.gray:hover {
+  background-color: #d5dce1;
+}
+
 .small {
   padding: 4px 10px;
   font-size: 13px;

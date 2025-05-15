@@ -36,6 +36,7 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
           <p className={styles.datetime}>{new Date(tweet.datetime).toLocaleString()}</p>
         </div>
       </div>
+      <p className={styles.text}>{tweet.text}</p>
       {tweet.image && (
         <div className={styles.imageWrapper}>
           <Image
