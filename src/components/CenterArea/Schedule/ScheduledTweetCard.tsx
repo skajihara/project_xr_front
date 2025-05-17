@@ -44,6 +44,7 @@ export default function ScheduledTweetCard({ scheduled }: { scheduled: Scheduled
             src={scheduled.image}
             alt="scheduled image"
             fill
+            sizes="(max-width: 768px) 100vw, 400px"
             className={styles.image}
             priority
           />

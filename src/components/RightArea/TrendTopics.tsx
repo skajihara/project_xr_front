@@ -1,19 +1,21 @@
 // src/components/RightArea/TrendTopics.tsx
 'use client'
 
+import styles from '@/styles/TrendTopics.module.css'
+
 import { useTrends } from '@/hooks/useTrends'
 
 export default function TrendTopics() {
   const trends = useTrends()
   return (
-    <section className="bg-gray-100 p-3 rounded">
-      <h3 className="font-bold mb-2">トレンドトピックス</h3>
-      <ul className="space-y-2">
+    <section className={styles.card}>
+      <h3 className={styles.heading}>トレンドトピックス</h3>
+      <ul className="flex flex-col gap-3">
         {trends.map(({ category, topic, count }) => (
-          <li key={topic}>
-            <p className="text-sm text-gray-500">{category}のトレンド</p>
-            <p className="font-semibold">{topic}</p>
-            <p className="text-xs text-gray-500">{count.toLocaleString()} tweets</p>
+          <li key={topic} className={styles.item}>
+            <p className={styles.category}>{category}のトレンド</p>
+            <p className={styles.topic}>{topic}</p>
+            <p className={styles.count}>{count.toLocaleString()} tweets</p>
           </li>
         ))}
       </ul>

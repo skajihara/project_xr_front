@@ -43,6 +43,7 @@ export default function TweetCard({ tweet }: { tweet: Tweet }) {
             src={tweet.image}
             alt="tweet image"
             fill
+            sizes="(max-width: 768px) 100vw, 400px"
             className={styles.image}
             priority
           />

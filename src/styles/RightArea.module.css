@@ -1,6 +1,10 @@
-.container {
-  padding: 1rem;
-  background-color: #fdfdfd;
+.rightArea {
+  background-color: #f5f8fa;
+  border-left: 1px solid #e1e8ed;
   height: 100%;
   overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }

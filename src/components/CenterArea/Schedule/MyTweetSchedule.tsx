@@ -12,7 +12,7 @@ export default function MyTweetSchedule() {
   const user = useUserStore(s => s.user)!
   const scheduledTweets = useScheduledTweets(user.id)
   return (
-    <>
+    <section className={styles.wrapper}>
       <ScheduleTweetForm />
       <ul className={styles.list}>
         {scheduledTweets.map(st => (
@@ -21,6 +21,6 @@ export default function MyTweetSchedule() {
           </li>
         ))}
       </ul>
-    </>
+    </section>
   )
 }

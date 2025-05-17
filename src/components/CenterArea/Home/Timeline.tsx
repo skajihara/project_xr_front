@@ -10,7 +10,7 @@ import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
 export default function Timeline() {
   const tweets = useTweets()
   return (
-    <>
+    <section className={styles.wrapper}>
       <TweetForm />
       <ul className={styles.list}>
         {tweets.map((tweet) => (
@@ -19,6 +19,6 @@ export default function Timeline() {
           </li>
         ))}
       </ul>
-    </>
+    </section>
   )
 }
