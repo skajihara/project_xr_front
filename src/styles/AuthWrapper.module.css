@@ -24,6 +24,10 @@
   overflow: hidden;
 }
 
+/* .scrollArea::-webkit-scrollbar {
+    display: none;
+} */
+
 .center {
   width: 900px;
   padding: 16px 24px;

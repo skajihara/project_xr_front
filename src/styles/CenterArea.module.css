@@ -8,3 +8,7 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.container::-webkit-scrollbar {
+  display: none;
+}
