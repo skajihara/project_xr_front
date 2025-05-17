@@ -1,5 +1,6 @@
-.centerArea {
+.container {
   background-color: #ffffff;
+  border-radius: 12px;
   height: 100%;
   overflow-y: auto;
   padding: 16px 24px;

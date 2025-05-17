@@ -204,6 +204,34 @@ Next.js App Router + SWR（suspense: true）構成だと、"ただレンダリ�
 
 - 目的：RecommendedUsers.tsx や TrendTopics.tsx の情報が浮かないよう調整
 
+### Tailwindの排除（インストールしておらず無効のため）
+
+### まだスタイリングしてないコンポーネント
+
+- AuthPage.tsx ログインフォーム系
+- MyProfile.tsx	LeftAreaのプロフィール表示
+- NotFoundClient.tsx 404ページ
+- ProfileHeader.tsx	プロフィールヘッダー
+- SideMenu.tsx メニュー一覧
+
+### Tailwind記法が含まれるコンポーネント
+- AuthPage.tsx フォーム全体が Tailwind ベース
+- MyProfile.tsx	レイアウトやアイコンサイズ等
+- NotFoundClient.tsx 中央寄せや文字色などがTailwind
+- ProfileHeader.tsx	戻るボタンや画像周辺の装飾
+- SideMenu.tsx ナビゲーション構成
+
+### スクロールエリアの変更
+```
+<body>
+  └─ <AuthWrapper> ← 全体で1スクロール
+        └─ layoutWrapper (flex)
+             ├─ leftArea（固定・スクロールしない）
+             └─ scrollArea（← 中央＆右をまとめる）
+                    ├─ centerArea
+                    └─ rightArea
+```
+
 ### レスポンシブ対応（表示の最適化）
 
 - 目的：表示領域のサイズを変更しても快適に見られるUIへ調整（左 or 右カラムを非表示など）

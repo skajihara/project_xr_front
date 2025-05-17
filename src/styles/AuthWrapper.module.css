@@ -1,26 +1,39 @@
-/* src/components/AuthWrapper.module.css */
-.wrapper {
+.layoutWrapper {
   display: flex;
-  flex-direction: row;
-  height: 100vh;
+  justify-content: center;
+  max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .left {
-  width: 25%;
-  min-width: 240px;
-  border-right: 1px solid #ccc;
-  overflow-y: auto;
+  width: 400px;
+  padding: 12px;
+  background-color: #f5f8fa;
+  flex-shrink: 0;
+  overflow: hidden; 
+}
+
+.scrollArea {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .center {
-  flex: 1;
-  overflow-y: auto;
+  width: 900px;
+  padding: 16px 24px;
+  background-color: #f5f8fa;
+  flex-shrink: 0;
 }
 
 .right {
-  width: 25%;
-  min-width: 240px;
-  border-left: 1px solid #ccc;
-  overflow-y: auto;
+  width: 500px;
+  padding: 16px;
+  background-color: #f5f8fa;
+  flex-shrink: 0;
 }

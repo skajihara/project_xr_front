@@ -45,21 +45,23 @@ export default function AuthWrapper({ children }: Props) {
     return <>{children}</>
   }
 
-    return (
-    <div className={styles.wrapper}>
+  return (
+    <div className={styles.layoutWrapper}>
       {showLeftArea && (
         <div className={styles.left}>
           <LeftArea />
         </div>
       )}
-      <div className={styles.center}>
-        <CenterArea>{children}</CenterArea>
-      </div>
-      {showRightArea && (
-        <div className={styles.right}>
-          <RightArea />
+      <div className={styles.scrollArea}>
+        <div className={styles.center}>
+          <CenterArea>{children}</CenterArea>
         </div>
-      )}
+        {showRightArea && (
+          <div className={styles.right}>
+            <RightArea />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
