@@ -23,7 +23,6 @@ jest.mock('next/image', () => ({
 
 describe('ProfileHeader コンポーネントの表示テスト', () => {
   const pushMock = jest.fn()
-
   const baseAccount = {
     id: 'user123',
     name: 'テストユーザー',
@@ -45,7 +44,6 @@ describe('ProfileHeader コンポーネントの表示テスト', () => {
 
   it('account情報と画像が正しく表示される', () => {
     (useAccount as jest.Mock).mockReturnValue(baseAccount)
-
     render(<ProfileHeader />)
 
     expect(screen.getByText('テストユーザー')).toBeInTheDocument()
@@ -53,14 +51,25 @@ describe('ProfileHeader コンポーネントの表示テスト', () => {
     expect(screen.getByText('こんにちは、私はNext.jsの勉強をしています。')).toBeInTheDocument()
     expect(screen.getByText(/Tokyo/)).toBeInTheDocument()
     expect(screen.getByText(/1995-06-15/)).toBeInTheDocument()
-    expect(screen.getByText(/2020年からTwitterを利用しています/)).toBeInTheDocument()
+
+    // 分割されたテキスト対策（2020年からXを利用しています）
+    expect(
+      screen.getByText((content) =>
+        content.includes('2020') && content.includes('年からXを利用しています')
+      )
+    ).toBeInTheDocument()
+
     expect(screen.getByText('111')).toBeInTheDocument()
     expect(screen.getByText('222')).toBeInTheDocument()
 
-    const iconImg = screen.getByAltText('テストユーザー') as HTMLImageElement
-    const headerImg = screen.getByAltText('header') as HTMLImageElement
-    expect(iconImg.src).toContain('/icons/account/user_icon.svg')
-    expect(headerImg.src).toContain('/images/header.jpg')
+    expect(screen.getByAltText('icon')).toHaveAttribute(
+      'src',
+      expect.stringContaining('/icons/account/user_icon.svg')
+    )
+    expect(screen.getByAltText('header')).toHaveAttribute(
+      'src',
+      expect.stringContaining('/images/header.jpg')
+    )
   })
 
   it.each([
@@ -71,32 +80,36 @@ describe('ProfileHeader コンポーネントの表示テスト', () => {
 
     render(<ProfileHeader />)
 
-    const img = screen.getByAltText('テストユーザー') as HTMLImageElement
+    const img = screen.getByAltText('icon') as HTMLImageElement
     expect(img.src).toContain('/icons/account/default_icon.svg')
   })
 
-  it('戻るボタンとフォロー中ボタンが表示される', () => {
+  it('戻るボタンが表示され、押すと /home に遷移する', () => {
     (useAccount as jest.Mock).mockReturnValue(baseAccount)
+
     render(<ProfileHeader />)
 
-    expect(screen.getByText('← 戻る')).toBeInTheDocument()
-    expect(screen.getByText('フォロー中')).toBeInTheDocument()
-  })
+    // ← ボタンを役割で取得
+    const backBtn = screen.getByRole('button', { name: '←' })
+    expect(backBtn).toBeInTheDocument()
 
-  it('戻るボタンクリックで router.push("/home") が呼ばれる', () => {
-    (useAccount as jest.Mock).mockReturnValue(baseAccount)
-    render(<ProfileHeader />)
-
-    screen.getByText('← 戻る').click()
+    backBtn.click()
     expect(pushMock).toHaveBeenCalledWith('/home')
   })
-  
+
+  it('プロフィール編集ボタンが表示される', () => {
+    (useAccount as jest.Mock).mockReturnValue(baseAccount)
+    render(<ProfileHeader />)
+
+    expect(screen.getByText('プロフィールを編集')).toBeInTheDocument()
+  })
+
   it('account が null のとき notFound() が呼ばれる', () => {
     (useAccount as jest.Mock).mockReturnValue(null)
-    
+
     const notFoundMock = notFound as unknown as jest.Mock
     render(<ProfileHeader />)
-    
+
     expect(notFoundMock).toHaveBeenCalled()
   })
 })

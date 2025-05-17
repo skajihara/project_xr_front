@@ -1,7 +1,8 @@
+// src/components/CenterArea/Schedule/__tests__/ScheduledTweetDetail.delete.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import ScheduledTweetDetail from '../ScheduledTweetDetail'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
-import { useRouter, useParams, notFound } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 
 // モック定義
 jest.mock('@/hooks/useScheduledTweet', () => ({

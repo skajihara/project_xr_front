@@ -1,6 +1,9 @@
 // /src/components/CenterArea/Schedule/ScheduledTweetDetail.tsx
 'use client'
 
+import styles from '@/styles/ScheduledTweetDetail.module.css'
+import btn from '@/styles/Button.module.css'
+
 import { useState, useEffect } from 'react'
 import { useParams, useRouter, notFound } from 'next/navigation'
 import ScheduledTweetCard from '@/components/CenterArea/Schedule/ScheduledTweetCard'
@@ -85,83 +88,80 @@ export default function ScheduledTweetDetail() {
   }
 
   return (
-    <div className="space-y-4">
-      <button
-        onClick={() => router.push('/scheduled_tweet')}
-        className="text-blue-500 hover:underline"
-      >
+    <div className={styles.wrapper}>
+      <button onClick={() => router.push('/scheduled_tweet')} className="text-blue-500 hover:underline">
         ← 戻る
       </button>
 
       {!isEditing ? (
         <>
           <ScheduledTweetCard scheduled={scheduled} />
-          <div className="flex space-x-2">
+          <div className={styles.buttonRow}>
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+              className={`${btn.button} ${btn.primary}`}
             >
               編集
             </button>
             <button
               onClick={handleDelete}
-              className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+              className={`${btn.button} ${btn.danger}`}
             >
               削除
             </button>
           </div>
         </>
       ) : (
-        <form onSubmit={handleSave} className="space-y-4 border rounded p-4 bg-white">
-          {errorMsg && <p className="text-red-600">{errorMsg}</p>}
+        <form onSubmit={handleSave} className={styles.form}>
+          {errorMsg && <p className={styles.error}>{errorMsg}</p>}
 
           <div>
-            <label htmlFor="text" className="block mb-1">テキスト</label>
+            <label htmlFor="text" className={styles.label}>テキスト</label>
             <textarea
               id="text"
               value={text}
               onChange={e => setText(e.target.value)}
-              className="w-full p-2 border rounded resize-none"
+              className={styles.textarea}
               rows={3}
               required
             />
           </div>
 
           <div>
-            <label htmlFor="image" className="block mb-1">画像URL (任意)</label>
+            <label htmlFor="image" className={styles.label}>画像URL (任意)</label>
             <input
               id="image"
               type="text"
               value={image}
               onChange={e => setImage(e.target.value)}
-              className="w-full p-2 border rounded"
+              className={styles.input}
             />
           </div>
 
           <div>
-            <label htmlFor="datetime" className="block mb-1">予約日時</label>
+            <label htmlFor="datetime" className={styles.label}>予約日時</label>
             <input
               id="datetime"
               type="datetime-local"
               value={scheduledDatetime}
               onChange={e => setScheduledDatetime(e.target.value)}
-              className="w-full p-2 border rounded"
+              className={styles.input}
               required
             />
           </div>
 
-          <div className="flex space-x-2">
+          <div className={styles.buttonRow}>
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+              className={`${btn.button} ${btn.primary} ${saving ? btn.disabled : ''}`}
             >
               {saving ? '更新中…' : '保存'}
             </button>
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400"
+              className={`${btn.button} ${btn.gray}`}
             >
               キャンセル
             </button>

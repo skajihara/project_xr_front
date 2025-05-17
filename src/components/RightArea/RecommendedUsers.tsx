@@ -1,30 +1,33 @@
 // src/components/RightArea/RecommendedUsers.tsx
 'use client'
 
+import styles from '@/styles/RecommendedUsers.module.css'
+
 import { useAccounts } from '@/hooks/useAccounts'
 import { useUserStore } from '@/stores/useUserStore'
 import Image from 'next/image'
 
 export default function RecommendedUsers() {
-  const current = useUserStore(s => s.user)
+  const current = useUserStore((s) => s.user)
   const accounts = useAccounts()
-  const users = accounts.filter(u => u.id !== current?.id).slice(0, 5)
+  const users = accounts.filter((u) => u.id !== current?.id).slice(0, 5)
+
   return (
-    <section className="bg-gray-100 p-3 rounded">
-      <h3 className="font-bold mb-2">おすすめユーザー</h3>
-      <ul className="space-y-3">
-        {users.map(u => (
-          <li key={u.id} className="flex items-center space-x-3">
+    <section className={styles.card}>
+      <h3 className={styles.heading}>おすすめユーザー</h3>
+      <ul className={styles.list}>
+        {users.map((u) => (
+          <li key={u.id} className={styles.user}>
             <Image
               src={u.icon || '/icons/account/default_icon.svg'}
               alt={u.name}
               width={32}
               height={32}
-              className="rounded-full object-cover"
+              className={styles.icon}
             />
             <div>
-              <p className="font-semibold">{u.name}</p>
-              <p className="text-xs text-gray-500">@{u.id}</p>
+              <p className={styles.name}>{u.name}</p>
+              <p className={styles.id}>@{u.id}</p>
             </div>
           </li>
         ))}

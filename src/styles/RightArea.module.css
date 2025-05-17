@@ -1,0 +1,14 @@
+.container {
+  background-color: #f5f8fa;
+  border-left: 1px solid #e1e8ed;
+  height: 100%;
+  overflow-y: auto;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}

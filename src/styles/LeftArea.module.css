@@ -1,0 +1,24 @@
+.container {
+  /* background-color: #ffffff; */
+  border-right: 1px solid #e1e8ed;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end; 
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end; /* ← メニューも右寄せ */
+}
+
+.footer {
+  border-top: 1px solid #e1e8ed;
+  padding-top: 16px;
+  align-items: flex-end; 
+}

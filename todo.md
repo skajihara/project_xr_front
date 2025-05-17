@@ -13,8 +13,9 @@
 - テスト環境セットアップ（Jest + React Testing Library）：✅
 - フックの単体テストを作成する：✅
 - コンポーネントの単体テストを作成する：✅
-- 最低限のスタイリング（labelやidを設定）：
-- テストを修正する：
+- 最低限のスタイリング（labelやidを設定）：✅
+- アニメーション・トランジション：✅
+- テストを修正する：✅
 - APIの呼び出しがパラメータとパス変数で別れている（db.jsonのせい）からサーバと連携したら全てパス変数に統一する：
 
 ---
@@ -157,3 +158,79 @@ Next.js App Router + SWR（suspense: true）構成だと、"ただレンダリ�
 - `ErrorBoundaryをモックしてしまえば良い`
 
 ---
+
+# スタイリング方針
+
+- テスト壊さず、責務分離して、Twitter風のUIをCSSでリッチ化
+    - ChakraUIみたいなコンポーネントスタイルライブラリだと既存テストやDOM構造が崩れる危険大
+    - Chakraとmodule.css併用はスタイルがバラけてカオスになる
+- ここまで来たらmodule.cssのみでやるしかない
+    - global.css → アプリ全体の背景やフォントなどだけに使う
+    - *.module.css → 各コンポーネントに責任範囲限定のCSSを割り当てる
+- **ライブラリを導入するならテスト作成前が良かった（反省点）**
+
+### 共通パーツのリッチ化（カード・ボタン・フォーム）
+
+- 目的：UIの型を整える（個別ページやエリアに関係なく使われる共通部品のリッチ化）
+- 対象：
+    - TweetCard.tsx、ScheduledTweetCard.tsx
+    - ボタン（投稿・編集・削除ボタンなど）
+    - フォーム（TweetForm / ScheduleTweetForm）
+- やること：
+    - TweetCard.module.css → シャドウ、ホバー、余白
+    - Button.module.css → primary、danger、disabledなど状態別クラス
+    - FormField.module.css → label、input、textareaの統一スタイル
+
+### 3エリア（Left / Center / Right）のビジュアル強化
+
+- 目的：ページ構成に合わせたエリアごとの視認性とバランス調整（各エリアで表示される情報の意味を視覚的に分離）
+- 対象：
+    - LeftArea.module.css
+    - CenterArea.module.css
+    - RightArea.module.css
+- やること：
+    - 背景の色の差（白 / グレー）
+    - 高さ・パディング・ボーダー調整
+    - スクロールの独立（overflow-y）
+
+### ページ単位のスタイル補強（Timeline, Profile, Scheduleなど）
+
+- 目的：ページ単体でのセクション分けや情報の見せ方強化（フォームやカードの周囲に適切な余白を設ける）
+- 対象：
+    - Tmeline.tsx
+    - ProfileTweets.tsx
+    - MyTweetSchedule.tsx など
+
+### 補助エリア（RightArea内のトレンド・おすすめ）整備
+
+- 目的：RecommendedUsers.tsx や TrendTopics.tsx の情報が浮かないよう調整
+
+### スクロールエリアの変更
+```
+<body>
+  └─ <AuthWrapper> ← 全体で1スクロール
+        └─ layoutWrapper (flex)
+             ├─ leftArea（固定・スクロールしない）
+             └─ scrollArea（← 中央＆右をまとめる）
+                    ├─ centerArea
+                    └─ rightArea
+```
+
+### Tailwindの排除（インストールしておらず無効のため）
+
+##### まだスタイリングしてないコンポーネント
+
+- AuthPage.tsx ログインフォーム系
+- MyProfile.tsx	LeftAreaのプロフィール表示
+- NotFoundClient.tsx 404ページ
+- SideMenu.tsx メニュー一覧
+
+##### Tailwind記法が含まれるコンポーネント
+- AuthPage.tsx フォーム全体が Tailwind ベース
+- MyProfile.tsx	レイアウトやアイコンサイズ等
+- NotFoundClient.tsx 中央寄せや文字色などがTailwind
+- SideMenu.tsx ナビゲーション構成
+
+### レスポンシブ対応（表示の最適化）
+
+- 目的：表示領域のサイズを変更しても快適に見られるUIへ調整（左 or 右カラムを非表示など）
