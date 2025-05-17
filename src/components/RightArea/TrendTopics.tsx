@@ -7,10 +7,11 @@ import { useTrends } from '@/hooks/useTrends'
 
 export default function TrendTopics() {
   const trends = useTrends()
+
   return (
     <section className={styles.card}>
       <h3 className={styles.heading}>トレンドトピックス</h3>
-      <ul className="flex flex-col gap-3">
+      <ul className={styles.list}>
         {trends.map(({ category, topic, count }) => (
           <li key={topic} className={styles.item}>
             <p className={styles.category}>{category}のトレンド</p>

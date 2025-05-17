@@ -8,15 +8,15 @@ import { useUserStore } from '@/stores/useUserStore'
 import Image from 'next/image'
 
 export default function RecommendedUsers() {
-  const current = useUserStore(s => s.user)
+  const current = useUserStore((s) => s.user)
   const accounts = useAccounts()
-  const users = accounts.filter(u => u.id !== current?.id).slice(0, 5)
+  const users = accounts.filter((u) => u.id !== current?.id).slice(0, 5)
 
   return (
     <section className={styles.card}>
       <h3 className={styles.heading}>おすすめユーザー</h3>
-      <ul className="flex flex-col gap-5">
-        {users.map(u => (
+      <ul className={styles.list}>
+        {users.map((u) => (
           <li key={u.id} className={styles.user}>
             <Image
               src={u.icon || '/icons/account/default_icon.svg'}
