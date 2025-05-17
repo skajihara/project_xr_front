@@ -1,6 +1,8 @@
 // src/components/LeftArea/MyProfile.tsx
 'use client'
 
+import styles from '@/styles/MyProfile.module.css'
+
 import { useAccount } from '@/hooks/useAccount'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'next/navigation'
@@ -19,22 +21,21 @@ export default function MyProfile() {
   }
 
   return (
-    <div className="flex items-center space-x-3">
-      <Image
-        src={account.icon || '/icons/account/default_icon.svg'}
-        alt={account.name}
-        width={40}
-        height={40}
-        className="rounded-full object-cover bg-gray-200"
-      />
-      <div>
-        <p className="font-semibold">{account.name}</p>
-        <p className="text-sm text-gray-500">@{account.id}</p>
+    <div className={styles.profile}>
+      <div className={styles.header}>
+        <Image
+          src={account.icon || '/icons/account/default_icon.svg'}
+          alt={account.name}
+          width={40}
+          height={40}
+          className={styles.icon}
+        />
+        <div className={styles.texts}>
+          <p className={styles.name}>{account.name}</p>
+          <p className={styles.id}>@{account.id}</p>
+        </div>
       </div>
-      <button
-        onClick={handleLogout}
-        className="px-3 py-1 text-sm text-red-500 hover:underline"
-      >
+      <button className={styles.logout} onClick={handleLogout}>
         ログアウト
       </button>
     </div>
