@@ -52,16 +52,14 @@ export default function AuthWrapper({ children }: Props) {
           <LeftArea />
         </div>
       )}
-      <div className={styles.scrollArea}>
-        <div className={styles.center}>
-          <CenterArea>{children}</CenterArea>
-        </div>
-        {showRightArea && (
-          <div className={styles.right}>
-            <RightArea />
-          </div>
-        )}
+      <div className={styles.center}>
+        <CenterArea>{children}</CenterArea>
       </div>
+      {showRightArea && (
+        <div className={styles.right}>
+          <RightArea />
+        </div>
+      )}
     </div>
   )
 }

@@ -16,18 +16,6 @@
   overflow: hidden; 
 }
 
-.scrollArea {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* .scrollArea::-webkit-scrollbar {
-    display: none;
-} */
-
 .center {
   width: 900px;
   padding: 16px 24px;
@@ -40,4 +28,20 @@
   padding: 16px;
   background-color: #f5f8fa;
   flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .left {
+    display: none;
+  }
+
+  .center {
+    width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+
+  .right {
+    display: none;
+  }
 }
