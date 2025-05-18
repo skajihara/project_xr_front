@@ -16,6 +16,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('@/hooks/useAccount', () => ({
   useAccount: () => ({ icon: null }),
 }))
+// next/image のモック（相対パスでの URL 解決エラーを防ぐ）
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
@@ -48,6 +49,7 @@ describe('ScheduledTweetDetail 削除テスト', () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({}),
+      text: async () => '',
     })
 
     Object.defineProperty(window, 'location', {
@@ -70,7 +72,11 @@ describe('ScheduledTweetDetail 削除テスト', () => {
 
   it('confirm が true の場合、fetch(DELETE) が呼ばれて router.push される', async () => {
     confirmMock.mockReturnValue(true)
-    ;(fetch as jest.Mock).mockResolvedValue({ ok: true })
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+      text: async () => '',
+    })
 
     render(<ScheduledTweetDetail />)
 
@@ -79,8 +85,8 @@ describe('ScheduledTweetDetail 削除テスト', () => {
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        'http://localhost:5000/scheduledTweets/1',
-        { method: 'DELETE' }
+        'http://localhost:8081/api/schedule/1',
+        expect.objectContaining({ method: 'DELETE' })
       )
       expect(pushMock).toHaveBeenCalledWith('/scheduled_tweet')
     })
@@ -100,7 +106,10 @@ describe('ScheduledTweetDetail 削除テスト', () => {
 
   it('削除失敗時は alert が表示される', async () => {
     confirmMock.mockReturnValue(true)
-    ;(fetch as jest.Mock).mockResolvedValue({ ok: false })
+    ;(global.fetch as jest.Mock).mockResolvedValue({
+      ok: false,
+      text: async () => '削除に失敗しました。',
+    })
 
     render(<ScheduledTweetDetail />)
 
@@ -108,7 +117,7 @@ describe('ScheduledTweetDetail 削除テスト', () => {
     fireEvent.click(button)
 
     await waitFor(() => {
-      expect(alertMock).toHaveBeenCalledWith('削除に失敗しました。')
+      expect(alertMock).toHaveBeenCalledWith(expect.stringContaining('削除に失敗しました。'))
     })
   })
 })

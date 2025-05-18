@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter, notFound } from 'next/navigation'
 import ScheduledTweetCard from '@/components/CenterArea/Schedule/ScheduledTweetCard'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
+import { fetcher } from '@/lib/fetcher'
+import { formatDateToJstString } from '@/lib/formatDate'
 
 export default function ScheduledTweetDetail() {
   const { scheduleId } = useParams() as { scheduleId: string }
@@ -43,24 +45,15 @@ export default function ScheduledTweetDetail() {
     }
     setSaving(true)
     try {
-      // 秒を付与して東京タイム表記に
       const dt = new Date(scheduledDatetime)
-      const formatted = dt
-        .toLocaleString('sv', { timeZone: 'Asia/Tokyo' })
-        .replace(' ', 'T')
-      await fetch(`http://localhost:5000/scheduledTweets/${scheduleId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...scheduled,
-          text: text.trim(),
-          image: image.trim() || null,
-          scheduled_datetime: formatted,
-        }),
-      }).then(res => {
-        if (!res.ok) throw new Error('更新に失敗しました。')
+      const formatted = formatDateToJstString(dt)
+
+      await fetcher(`/schedule/${scheduleId}`, 'PUT', {
+        ...scheduled,
+        text: text.trim(),
+        image: image.trim() || null,
+        scheduled_datetime: formatted,
       })
-      // 編集モード解除＆再描画
       setIsEditing(false)
       window.location.reload()
     } catch (err: unknown) {
@@ -75,11 +68,7 @@ export default function ScheduledTweetDetail() {
   const handleDelete = async () => {
     if (!confirm('この予約ツイートを削除してもいいですか？')) return
     try {
-      const res = await fetch(
-        `http://localhost:5000/scheduledTweets/${scheduleId}`,
-        { method: 'DELETE' }
-      )
-      if (!res.ok) throw new Error('削除に失敗しました。')
+      await fetcher(`/schedule/${scheduleId}`, 'DELETE')
       router.push('/scheduled_tweet')
     } catch (err: unknown) {
       console.error(err)

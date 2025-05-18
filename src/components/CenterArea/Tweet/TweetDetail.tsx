@@ -9,6 +9,7 @@ import { useParams, useRouter, notFound } from 'next/navigation'
 import TweetCard from '@/components/CenterArea/Tweet/TweetCard'
 import { useTweet } from '@/hooks/useTweet'
 import { useUserStore } from '@/stores/useUserStore'
+import { fetcher } from '@/lib/fetcher'
 
 export default function TweetDetail() {
   const { tweetId } = useParams() as { tweetId: string }
@@ -45,16 +46,10 @@ export default function TweetDetail() {
     }
     setSaving(true)
     try {
-      await fetch(`http://localhost:5000/tweets/${tweet.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...tweet,
-          text: text.trim(),
-          image: image.trim() || null,
-        }),
-      }).then(res => {
-        if (!res.ok) throw new Error('更新に失敗しました。')
+      await fetcher(`/tweet/${tweet.id}`, 'PUT', {
+        ...tweet,
+        text: text.trim(),
+        image: image.trim() || null,
       })
       setIsEditing(false)
       window.location.reload()
@@ -69,8 +64,7 @@ export default function TweetDetail() {
   const handleDelete = async () => {
     if (!confirm('このツイートを削除してもいい？')) return
     try {
-      const res = await fetch(`http://localhost:5000/tweets/${tweet.id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('削除に失敗しました。')
+      await fetcher(`/tweet/${tweet.id}`, 'DELETE')
       router.push('/home')
     } catch (err: unknown) {
       console.error(err)
