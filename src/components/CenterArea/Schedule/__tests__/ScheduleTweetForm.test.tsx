@@ -45,7 +45,10 @@ describe('ScheduleTweetForm', () => {
 
   it('正常に投稿できたらfetchとreloadが呼ばれる', async () => {
     const mockFetch = fetch as jest.Mock
-    mockFetch.mockResolvedValue({ ok: true })
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ message: '成功' }),
+    })
 
     render(<ScheduleTweetForm />)
 
@@ -62,7 +65,10 @@ describe('ScheduleTweetForm', () => {
 
   it('fetch失敗時にエラーメッセージが出る', async () => {
     const mockFetch = fetch as jest.Mock
-    mockFetch.mockRejectedValue(new Error('送信失敗'))
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 400,
+    })
 
     render(<ScheduleTweetForm />)
 

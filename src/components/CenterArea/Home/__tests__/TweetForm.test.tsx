@@ -42,7 +42,11 @@ describe('TweetForm', () => {
 
   it('正常に投稿できるとfetchとリロードが呼ばれる', async () => {
     const mockFetch = global.fetch as jest.Mock
-    mockFetch.mockResolvedValueOnce({ ok: true })
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ message: '投稿成功！' }),
+      text: () => Promise.resolve('投稿成功！'),
+    })
 
     render(<TweetForm />)
 
@@ -63,7 +67,12 @@ describe('TweetForm', () => {
 
   it('fetch失敗でエラーメッセージが表示される', async () => {
     const mockFetch = global.fetch as jest.Mock
-    mockFetch.mockResolvedValueOnce({ ok: false })
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 400,
+      json: () => Promise.resolve({}),
+      text: () => Promise.resolve('ツイート投稿に失敗しました'),
+    })
 
     render(<TweetForm />)
 
@@ -72,6 +81,7 @@ describe('TweetForm', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: 'ツイート' }))
 
-    expect(await screen.findByText('ツイート投稿に失敗しました')).toBeInTheDocument()
+    expect(await screen.findByText(/ツイート投稿に失敗しました/)).toBeInTheDocument()
   })
+
 })
