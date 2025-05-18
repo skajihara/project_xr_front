@@ -6,6 +6,8 @@ import btn from "@/styles/Button.module.css";
 
 import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
+import { fetcher } from '@/lib/fetcher'
+import { formatDateToJstString } from '@/lib/formatDate'
 
 export default function ScheduleTweetForm() {
   const user = useUserStore((s) => s.user)!;
@@ -25,25 +27,15 @@ export default function ScheduleTweetForm() {
     }
     setLoading(true);
     try {
-      // 入力値（例: "2025-04-20T14:30"）を（"2025-04-20 14:30:00"）にフォーマット
-      const dt = new Date(scheduledDatetime);
-      const formatted = dt.toLocaleString("sv", { timeZone: "Asia/Tokyo" });
-
-      await fetch("http://localhost:5000/scheduledTweets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          account_id: user.id,
-          text,
-          image: image || null,
-          location: null,
-          scheduled_datetime: formatted,
-          created_datetime: new Date().toLocaleString("sv", {
-            timeZone: "Asia/Tokyo",
-          }),
-          delete_flag: 0,
-        }),
-      });
+      await fetcher('/schedule', 'POST', {
+        account_id: user.id,
+        text,
+        image: image || null,
+        location: null,
+        scheduled_datetime: formatDateToJstString(new Date(scheduledDatetime)),
+        created_datetime: formatDateToJstString(),
+        delete_flag: 0,
+      })
       // フォーム初期化
       setText("");
       setImage("");

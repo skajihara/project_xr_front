@@ -51,7 +51,11 @@ describe('TweetDetail 編集テスト', () => {
     ;(useParams as jest.Mock).mockReturnValue({ tweetId: '1' })
     ;(useRouter as jest.Mock).mockReturnValue({ push: pushMock })
     ;(useTweet as jest.Mock).mockReturnValue(tweetMock)
-    global.fetch = jest.fn(() => Promise.resolve({ ok: true })) as jest.Mock
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: async () => ({}),
+      text: async () => '',
+    })) as jest.Mock
     Object.defineProperty(window, 'location', {
       value: { reload: jest.fn() },
       writable: true,
@@ -105,13 +109,16 @@ describe('TweetDetail 編集テスト', () => {
     fireEvent.click(screen.getByRole('button', { name: '保存' }))
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:5000/tweets/1', expect.anything())
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8081/api/tweet/1',expect.objectContaining({ method: 'PUT' }))
       expect(window.location.reload).toHaveBeenCalled()
     })
   })
 
   it('保存失敗時はエラーメッセージが表示される', async () => {
-    ;(fetch as jest.Mock).mockResolvedValueOnce({ ok: false })
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      text: async () => '更新に失敗しました。',
+    })
 
     render(<TweetDetail />)
     fireEvent.click(screen.getByText('編集'))
@@ -121,6 +128,6 @@ describe('TweetDetail 編集テスト', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '保存' }))
 
-    expect(await screen.findByText('更新に失敗しました。')).toBeInTheDocument()
+    expect(await screen.findByText(/更新に失敗しました。/)).toBeInTheDocument()
   })
 })

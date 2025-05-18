@@ -51,7 +51,11 @@ describe('TweetDetail 表示・編集・削除のテスト', () => {
     ;(useParams as jest.Mock).mockReturnValue({ tweetId: '1' })
     ;(useRouter as jest.Mock).mockReturnValue({ push: pushMock })
     ;(useTweet as jest.Mock).mockReturnValue(tweetMock)
-    global.fetch = jest.fn(() => Promise.resolve({ ok: true })) as jest.Mock
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: async () => ({}),
+      text: async () => '',
+    })) as jest.Mock
     Object.defineProperty(window, 'location', {
       value: { reload: jest.fn() },
       writable: true,
@@ -75,7 +79,7 @@ describe('TweetDetail 表示・編集・削除のテスト', () => {
     fireEvent.click(screen.getByText('削除'))
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:5000/tweets/1', { method: 'DELETE' })
+      expect(fetch).toHaveBeenCalledWith('http://localhost:8081/api/tweet/1',expect.objectContaining({ method: 'DELETE' }))
       expect(pushMock).toHaveBeenCalledWith('/home')
     })
   })
@@ -92,14 +96,20 @@ describe('TweetDetail 表示・編集・削除のテスト', () => {
 
   it('削除失敗時は alert が表示される', async () => {
     confirmMock.mockReturnValue(true)
-    ;(fetch as jest.Mock).mockResolvedValueOnce({ ok: false })
+
+    const mockedFetch = global.fetch as jest.Mock
+    mockedFetch.mockResolvedValueOnce({
+      ok: false,
+      text: async () => '削除に失敗しました。',
+    })
 
     render(<TweetDetail />)
 
     fireEvent.click(screen.getByText('削除'))
 
     await waitFor(() => {
-      expect(alertMock).toHaveBeenCalledWith('削除に失敗しました。')
+      expect(alertMock).toHaveBeenCalledWith(expect.stringContaining('削除に失敗しました。'))
     })
   })
+
 })

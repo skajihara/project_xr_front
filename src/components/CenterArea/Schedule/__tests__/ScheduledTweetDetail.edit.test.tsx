@@ -1,22 +1,20 @@
-// src/components/CenterArea/Schedule/__tests__/ScheduledTweetDetail.edit.test.tsx
+// src/components/CenterArea/Schedule/__tests__/ScheduledTweetDetail.delete.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import ScheduledTweetDetail from '../../Schedule/ScheduledTweetDetail'
-import { useRouter, useParams } from 'next/navigation'
+import ScheduledTweetDetail from '../ScheduledTweetDetail'
 import { useScheduledTweet } from '@/hooks/useScheduledTweet'
+import { useRouter, useParams } from 'next/navigation'
 
-// モック
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-  useParams: jest.fn(),
-}))
+// モック定義
 jest.mock('@/hooks/useScheduledTweet', () => ({
   useScheduledTweet: jest.fn(),
 }))
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+  useParams: jest.fn(),
+  notFound: jest.fn(),
+}))
 jest.mock('@/hooks/useAccount', () => ({
   useAccount: () => ({ icon: null }),
-}))
-jest.mock('@/stores/useUserStore', () => ({
-  useUserStore: () => ({ user: { id: 'user1' } }),
 }))
 // next/image のモック（相対パスでの URL 解決エラーを防ぐ）
 jest.mock('next/image', () => ({
@@ -27,8 +25,10 @@ jest.mock('next/image', () => ({
   },
 }))
 
-describe('ScheduledTweetDetail 編集テスト', () => {
+describe('ScheduledTweetDetail 削除テスト', () => {
   const pushMock = jest.fn()
+  const confirmMock = jest.fn()
+  const alertMock = jest.fn()
   const mockScheduled = {
     id: 1,
     account_id: 'user1',
@@ -42,141 +42,75 @@ describe('ScheduledTweetDetail 編集テスト', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-
-    // fetchモック
-    global.fetch = jest.fn(() => Promise.resolve({ ok: true })) as jest.Mock
-
-    // パラメータとルーター
-    (useParams as jest.Mock).mockReturnValue({ scheduleId: '1' })
+    ;(useParams as jest.Mock).mockReturnValue({ scheduleId: '1' })
     ;(useRouter as jest.Mock).mockReturnValue({ push: pushMock })
+    ;(useScheduledTweet as jest.Mock).mockReturnValue(mockScheduled)
 
-    // ツイートデータのモック
-    ;(useScheduledTweet as jest.Mock).mockReturnValue({
-      id: 1,
-      account_id: 'user1',
-      text: 'スケジュール投稿のテストだよ！',
-      image: '',
-      location: 'Tokyo',
-      scheduled_datetime: '2025-01-01 10:00:00',
-      created_datetime: '2024-12-31 12:00:00',
-      delete_flag: 0,
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+      text: async () => '',
     })
-  })
 
-  it('編集フォームの初期値がツイート内容と一致している', async () => {
-    render(<ScheduledTweetDetail />)
-    fireEvent.click(screen.getByText('編集'))
-
-    const text = await screen.findByLabelText('テキスト') as HTMLTextAreaElement
-    const image = screen.getByLabelText('画像URL (任意)') as HTMLInputElement
-    const datetime = screen.getByLabelText('予約日時') as HTMLInputElement
-
-    expect(text.value).toBe(mockScheduled.text)
-    expect(image.value).toBe('')
-    expect(datetime.value).toBe(mockScheduled.scheduled_datetime)
-  })
-
-  it('編集モードではフォーム要素が正しく表示される', async () => {
-    render(<ScheduledTweetDetail />)
-
-    fireEvent.click(await screen.findByText('編集'))
-
-    expect(screen.getByLabelText('テキスト')).toBeInTheDocument()
-    expect(screen.getByLabelText('画像URL (任意)')).toBeInTheDocument()
-    expect(screen.getByLabelText('予約日時')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '保存' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'キャンセル' })).toBeInTheDocument()
-  })
-
-  it('編集フォームの初期値がツイート内容と一致している', async () => {
-    render(<ScheduledTweetDetail />)
-
-    fireEvent.click(await screen.findByText('編集'))
-
-    const textArea = screen.getByLabelText('テキスト') as HTMLTextAreaElement
-    const imageInput = screen.getByLabelText('画像URL (任意)') as HTMLInputElement
-    const datetimeInput = screen.getByLabelText('予約日時') as HTMLInputElement
-
-    expect(textArea.value).toBe('スケジュール投稿のテストだよ！')
-    expect(imageInput.value).toBe('')
-    expect(datetimeInput.value).toBe('2025-01-01T10:00')
-  })
-
-  it('キャンセルボタンをクリックすると編集モードが終了し、元の表示に戻ることを確認する', async () => {
-    render(<ScheduledTweetDetail />)
-
-    // 編集モードにする
-    fireEvent.click(await screen.findByText('編集'))
-
-    // フォーム要素が見えている
-    expect(await screen.findByLabelText('テキスト')).toBeInTheDocument()
-
-    // キャンセルボタンクリック
-    fireEvent.click(screen.getByRole('button', { name: 'キャンセル' }))
-
-    // 再び編集・削除ボタンが表示されている（フォームが閉じた）
-    await waitFor(() => {
-      expect(screen.getByText('編集')).toBeInTheDocument()
-      expect(screen.getByText('削除')).toBeInTheDocument()
-    })
-  })
-
-  it('フォームを編集して保存すると fetch(PUT) と reload が呼ばれる', async () => {
-    const mockReload = jest.fn()
     Object.defineProperty(window, 'location', {
-      value: { reload: mockReload },
       writable: true,
+      value: { reload: jest.fn() },
     })
 
-    const mockFetch = fetch as jest.Mock
-    mockFetch.mockResolvedValue({ ok: true })
+    window.confirm = confirmMock
+    window.alert = alertMock
+  })
+
+  it('削除ボタン押下で confirm が呼ばれる', async () => {
+    render(<ScheduledTweetDetail />)
+    const button = await screen.findByRole('button', { name: '削除' })
+    fireEvent.click(button)
+    expect(confirmMock).toHaveBeenCalledWith('この予約ツイートを削除してもいいですか？')
+  })
+
+  it('confirm が true の場合、fetch(DELETE) が呼ばれて router.push される', async () => {
+    confirmMock.mockReturnValue(true)
+    ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({}),
+      text: async () => '',
+    })
 
     render(<ScheduledTweetDetail />)
+    const button = await screen.findByRole('button', { name: '削除' })
+    fireEvent.click(button)
 
-    // 編集モードへ
-    fireEvent.click(await screen.findByText('編集'))
-
-    // 値を変更する
-    fireEvent.change(screen.getByLabelText('テキスト'), {
-      target: { value: '変更されたツイートだよ！' },
-    })
-    fireEvent.change(screen.getByLabelText('予約日時'), {
-      target: { value: '2025-01-02T14:00' },
-    })
-
-    // 保存クリック
-    fireEvent.click(screen.getByRole('button', { name: '保存' }))
-
-    // fetchとreloadが呼ばれたか確認
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch.mock.calls[0][0]).toBe('http://localhost:5000/scheduledTweets/1')
-      expect(mockFetch.mock.calls[0][1].method).toBe('PUT')
-      expect(mockReload).toHaveBeenCalled()
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:8081/api/schedule/1',
+        expect.objectContaining({ method: 'DELETE' })
+      )
+      expect(pushMock).toHaveBeenCalledWith('/scheduled_tweet')
     })
   })
 
-  it('保存時に fetch(PUT) が失敗するとエラーメッセージが表示される', async () => {
-    const mockFetch = fetch as jest.Mock
-    mockFetch.mockResolvedValue({ ok: false }) // ❌ 失敗応答
+  it('confirm が false の場合、fetch や router.push は呼ばれない', async () => {
+    confirmMock.mockReturnValue(false)
+    render(<ScheduledTweetDetail />)
+    const button = await screen.findByRole('button', { name: '削除' })
+    fireEvent.click(button)
+    expect(fetch).not.toHaveBeenCalled()
+    expect(pushMock).not.toHaveBeenCalled()
+  })
+
+  it('削除失敗時は alert が表示される', async () => {
+    confirmMock.mockReturnValue(true)
+    ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      text: async () => '削除に失敗しました。',
+    })
 
     render(<ScheduledTweetDetail />)
+    const button = await screen.findByRole('button', { name: '削除' })
+    fireEvent.click(button)
 
-    // 編集モードへ
-    fireEvent.click(await screen.findByText('編集'))
-
-    // 値を変更する
-    fireEvent.change(screen.getByLabelText('テキスト'), {
-      target: { value: '失敗ケースのテストだよ！' },
+    await waitFor(() => {
+      expect(alertMock).toHaveBeenCalledWith(expect.stringContaining('削除に失敗しました。'))
     })
-    fireEvent.change(screen.getByLabelText('予約日時'), {
-      target: { value: '2025-01-02T14:00' },
-    })
-
-    // 保存クリック
-    fireEvent.click(screen.getByRole('button', { name: '保存' }))
-
-    // エラーメッセージ確認
-    expect(await screen.findByText('更新に失敗しました。')).toBeInTheDocument()
   })
 })

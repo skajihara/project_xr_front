@@ -6,6 +6,8 @@ import btn from "@/styles/Button.module.css";
 
 import { useState } from "react";
 import { useUserStore } from "@/stores/useUserStore";
+import { fetcher } from "@/lib/fetcher";
+import { formatDateToJstString } from '@/lib/formatDate'
 
 export default function TweetForm() {
   const user = useUserStore((s) => s.user);
@@ -29,18 +31,13 @@ export default function TweetForm() {
       retweets: 0,
       replies: 0,
       views: 0,
-      datetime: new Date().toLocaleString("sv", { timeZone: "Asia/Tokyo" }),
+      datetime: formatDateToJstString(),
       location: null,
       delete_flag: 0,
     };
 
     try {
-      const res = await fetch("http://localhost:5000/tweets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTweet),
-      });
-      if (!res.ok) throw new Error("ツイート投稿に失敗しました");
+      await fetcher("/tweet", "POST", newTweet);
       setText("");
       setImageUrl("");
       // 投稿後にタイムラインをリロード
